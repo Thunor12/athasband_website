@@ -1,0 +1,21 @@
+{
+  "name": "athas_website",
+  "version": "1.0.0",
+  "description": "Minimal dark fantasy website for the band Aþas",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "keywords": [
+    "astro",
+    "band-website"
+  ],
+  "author": "Aþas",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "astro": "^6.1.8"
+  }
+}

@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
+
+@font-face {
+  font-family: "Aniron";
+  src: url("/fonts/aniron-font/Aniron-7BaP.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aniron";
+  src: url("/fonts/aniron-font/AnironBold-mL9P.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ringbearer";
+  src: url("/fonts/ringbearer-font/RingbearerMedium-51mgZ.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #09090b;
+  --text: #d9d9dd;
+  --muted: #9ea2a8;
+  --line: #2a2c31;
+  --accent: #c3c7cf;
+  --gold: #b5965a;
+  --gold-faint: rgba(181, 150, 90, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "EB Garamond", "Times New Roman", serif;
+  font-size: clamp(1.08rem, 0.95rem + 0.4vw, 1.28rem);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 3px 3px;
+  opacity: 0.08;
+}
+
+.container {
+  width: min(720px, calc(100% - 2.5rem));
+  margin: 0 auto;
+  padding: 0.6rem 0 2.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+h1,
+h2 {
+  letter-spacing: 0.07em;
+  text-transform: none;
+}
+
+h1 {
+  font-family: "Aniron", "Times New Roman", serif;
+  font-size: clamp(2rem, 5.9vw, 3.4rem);
+  margin: 0;
+  line-height: 1.04;
+  text-shadow: 0 0 22px rgba(181, 150, 90, 0.14);
+}
+
+h2 {
+  font-family: "Ringbearer", "Times New Roman", serif;
+  font-size: clamp(1.45rem, 3.8vw, 2.1rem);
+  margin: 0 0 0.8rem;
+}
+
+p {
+  line-height: 1.75;
+}
+
+.hero {
+  min-height: calc(100dvh - 1.2rem);
+  margin-bottom: 1.4rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 0.1rem;
+  padding-top: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(181, 150, 90, 0.14);
+  border-radius: 6px;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -6%;
+  background-image:
+    radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.48) 62%,
+      rgba(0, 0, 0, 0.76) 100%
+    ),
+    url("/image/athas-dark-fantasy-bg.jpg");
+  background-size: cover;
+  background-position: center 24%;
+  opacity: 0.24;
+  filter: grayscale(1) contrast(1.08);
+  pointer-events: none;
+}
+
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-logo {
+  display: block;
+  width: min(84vw, 50vh, 620px);
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  filter:
+    drop-shadow(0 0 10px rgba(181, 150, 90, 0.14))
+    drop-shadow(0 0 26px rgba(181, 150, 90, 0.16))
+    drop-shadow(0 0 58px rgba(181, 150, 90, 0.1));
+}
+
+.hero-banner {
+  font-family: "EB Garamond", "Times New Roman", serif;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: clamp(0.7rem, 0.66rem + 0.18vw, 0.86rem);
+  margin: 0;
+  padding: 0.12rem 0.62rem;
+  border-top: 1px solid rgba(181, 150, 90, 0.22);
+  border-bottom: 1px solid rgba(181, 150, 90, 0.22);
+  background: linear-gradient(
+    90deg,
+    rgba(181, 150, 90, 0.02) 0%,
+    rgba(181, 150, 90, 0.07) 50%,
+    rgba(181, 150, 90, 0.02) 100%
+  );
+}
+
+.hero-runes {
+  font-family: "Ringbearer", "Times New Roman", serif;
+  color: rgba(205, 179, 114, 0.95);
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  letter-spacing: 0.2em;
+  margin: 0;
+  text-shadow: 0 0 18px rgba(220, 196, 123, 0.2);
+}
+
+.section {
+  border-top: 1px solid rgba(181, 150, 90, 0.22);
+  padding-top: 1.2rem;
+  margin-top: 1.5rem;
+  padding-inline: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(181, 150, 90, 0.07) 0%,
+    rgba(181, 150, 90, 0.015) 28%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.section h2 {
+  color: #d8c18b;
+  margin-bottom: 0.9rem;
+}
+
+.section-content > :first-child {
+  margin-top: 0;
+}
+
+.prose-panel {
+  border: 1px solid rgba(181, 150, 90, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.8rem 0.95rem;
+  border-radius: 4px;
+}
+
+.prose-panel p {
+  margin: 0 0 0.85rem;
+}
+
+.prose-panel p:last-child {
+  margin-bottom: 0;
+}
+
+.current-panel {
+  border: 1px solid rgba(181, 150, 90, 0.22);
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 4px;
+  padding: 0.8rem 0.95rem;
+}
+
+.current-panel p {
+  margin: 0 0 0.75rem;
+}
+
+.current-highlights {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+  color: #cec7b5;
+}
+
+.contact-intro {
+  margin: 0 0 0.8rem;
+  color: #c9c2b0;
+}
+
+.contact-block {
+  margin-bottom: 0.95rem;
+  border: 1px solid rgba(181, 150, 90, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.7rem 0.85rem;
+  border-radius: 4px;
+}
+
+.contact-label {
+  color: var(--muted);
+  margin: 0 0 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+}
+
+.contact-link {
+  font-size: 1.06rem;
+  color: #e0cd9e;
+}
+
+.social-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(181, 150, 90, 0.3);
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  color: #d2c8b0;
+  background: rgba(181, 150, 90, 0.08);
+  transition: border-color 140ms ease, background-color 140ms ease,
+    color 140ms ease;
+}
+
+.social-links a:hover {
+  text-decoration: none;
+  border-color: rgba(220, 196, 123, 0.8);
+  background: rgba(181, 150, 90, 0.16);
+  color: #f2e4c5;
+}
+
+.stack-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.stack-item {
+  border: 1px solid var(--line);
+  padding: 1rem;
+}

@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const updates = await getCollection("updates");
+const sorted = updates.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<BaseLayout title="Aþas | Updates" description="News and progress updates from Aþas.">
+  <h1>Updates</h1>
+  <ul class="stack-list">
+    {
+      sorted.map((entry) => (
+        <li class="stack-item">
+          <h2>{entry.data.title}</h2>
+          <p>{entry.data.date.toISOString().slice(0, 10)}</p>
+          <p>{entry.data.summary}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

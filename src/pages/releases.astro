@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const releases = await getCollection("releases");
+---
+
+<BaseLayout title="Aþas | Releases" description="Aþas releases and status.">
+  <h1>Releases</h1>
+  <ul class="stack-list">
+    {
+      releases.map((release) => (
+        <li class="stack-item">
+          <h2>{release.data.title}</h2>
+          <p>{release.data.format}</p>
+          <p>Status: {release.data.status}</p>
+          <p>Release: {release.data.releaseDate}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

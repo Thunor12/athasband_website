@@ -1,0 +1,12 @@
+---
+interface Props {
+  bookingEmail: string;
+}
+
+const { bookingEmail } = Astro.props;
+---
+
+<div class="contact-block">
+  <p class="contact-label">Booking & collaborations</p>
+  <a href={`mailto:${bookingEmail}`} class="contact-link">{bookingEmail}</a>
+</div>

@@ -1,0 +1,50 @@
+---
+import { getEntry, render } from "astro:content";
+import ContactBlock from "../components/ContactBlock.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const home = await getEntry("pages", "home");
+
+if (!home) {
+  throw new Error("Homepage content entry is missing.");
+}
+
+const { Content } = await render(home);
+---
+
+<BaseLayout title={home.data.seoTitle} description={home.data.seoDescription}>
+  <Hero
+    title={home.data.title}
+    tagline={home.data.tagline}
+    logoSrc="/image/Athas_Logo_transparent.png"
+    logoAlt="Aþas band logo"
+  />
+
+  <Section title="About">
+    <div class="prose-panel">
+      <Content />
+    </div>
+  </Section>
+
+  <Section title="Current Work">
+    <div class="current-panel">
+      <p>{home.data.status}</p>
+      <ul class="current-highlights">
+        <li>Debut material in finalization.</li>
+        <li>Live lineup preparation underway.</li>
+        <li>Open to label and promoter collaborations.</li>
+      </ul>
+    </div>
+  </Section>
+
+  <Section title="Contact">
+    <p class="contact-intro">
+      For bookings, support slots, and collaborations, reach out directly.
+    </p>
+    <ContactBlock bookingEmail={home.data.bookingEmail} />
+    <SocialLinks socials={home.data.socials} />
+  </Section>
+</BaseLayout>

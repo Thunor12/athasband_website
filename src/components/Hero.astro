@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  tagline: string;
+  logoSrc?: string;
+  logoAlt?: string;
+  bannerText?: string;
+  runicName?: string;
+}
+
+const {
+  title,
+  logoSrc = "/image/Athas_Logo_transparent.png",
+  logoAlt = "Aþas logo",
+  bannerText = "Melodic black metal ⚔️ Anglo-Saxon mysticism ⚔️ Dark fantasy",
+  runicName = "ᚪᚦᚪᚴ",
+} = Astro.props;
+---
+
+<header class="hero">
+  <h1>{title}</h1>
+  <p class="hero-runes" aria-label="Runic inscription of Aþas">{runicName}</p>
+  <p class="hero-banner">{bannerText}</p>
+  <img src={logoSrc} alt={logoAlt} class="hero-logo" />
+</header>
