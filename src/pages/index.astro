@@ -23,6 +23,17 @@ const { Content } = await render(home);
     logoAlt="Aþas band logo"
   />
 
+  <Section title="Listen">
+    <div class="listen-panel">
+      <p class="listen-meta">Liegetsliht — demo snippet</p>
+      <audio class="song-player" controls preload="metadata">
+        <source src="/music/Liegetsliht_demo.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      <p class="listen-note">Demo excerpt. Full release forthcoming.</p>
+    </div>
+  </Section>
+
   <Section title="The Vision">
     <div class="prose-panel">
       <Content />

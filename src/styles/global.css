@@ -217,6 +217,38 @@ p {
   border-radius: 4px;
 }
 
+.listen-panel {
+  border: 1px solid rgba(181, 150, 90, 0.28);
+  background: linear-gradient(
+    180deg,
+    rgba(181, 150, 90, 0.1) 0%,
+    rgba(0, 0, 0, 0.34) 100%
+  );
+  padding: 0.85rem 0.95rem;
+  border-radius: 5px;
+}
+
+.listen-meta {
+  margin: 0 0 0.55rem;
+  font-family: "Ringbearer", "Times New Roman", serif;
+  color: #d8c18b;
+  letter-spacing: 0.06em;
+  font-size: 0.94rem;
+}
+
+.song-player {
+  width: 100%;
+  height: 38px;
+  border-radius: 999px;
+  filter: sepia(0.2) contrast(1.03);
+}
+
+.listen-note {
+  margin: 0.55rem 0 0;
+  color: #bdb5a2;
+  font-size: 0.9rem;
+}
+
 .prose-panel p {
   margin: 0 0 0.85rem;
 }
