@@ -45,6 +45,13 @@ const { Content } = await render(home);
       For bookings, support slots, and collaborations, reach out directly.
     </p>
     <ContactBlock bookingEmail={home.data.bookingEmail} />
-    <SocialLinks socials={home.data.socials} />
+    <div class="contact-socials">
+      <SocialLinks socials={home.data.socials} />
+    </div>
   </Section>
+
+  <aside class="social-side-panel" aria-label="Aþas social links">
+    <p class="social-side-title">Follow</p>
+    <SocialLinks socials={home.data.socials} />
+  </aside>
 </BaseLayout>
