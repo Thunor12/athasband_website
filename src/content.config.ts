@@ -7,6 +7,7 @@ const pages = defineCollection({
     title: z.string(),
     tagline: z.string(),
     status: z.string(),
+    banner_text: z.string(),
     bookingEmail: z.string().email(),
     socials: z.array(
       z.object({
