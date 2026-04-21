@@ -742,16 +742,20 @@ p {
 
 .release-artwork {
   margin: 0.25rem 0 1rem;
+  text-align: center;
 }
 
 .release-artwork-link {
-  display: inline-block;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
   text-decoration: none;
   color: inherit;
 }
 
 .release-artwork-atropos {
   width: min(84vw, 360px);
+  margin: 0 auto;
 }
 
 .release-artwork-atropos .atropos-inner {
