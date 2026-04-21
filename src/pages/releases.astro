@@ -21,7 +21,7 @@ const renderedReleases = await Promise.all(
   <h1>Releases</h1>
   <ul class="stack-list">
     {
-      renderedReleases.map((release) => (
+      renderedReleases.map((release, index) => (
         <li class="stack-item">
           <h2>{release.data.title}</h2>
           <ReleaseArtwork
@@ -29,6 +29,7 @@ const renderedReleases = await Promise.all(
             alt={release.data.artworkAlt ?? `${release.data.title} artwork preview`}
             title={release.data.title}
             href={release.data.bandcampUrl}
+            priority={index === 0}
           />
           <p>{release.data.format}</p>
           <p>Status: {release.data.status}</p>

@@ -7,9 +7,10 @@ interface Props {
   alt: string;
   title?: string;
   href?: string;
+  priority?: boolean;
 }
 
-const { src, alt, title, href } = Astro.props;
+const { src, alt, title, href, priority = false } = Astro.props;
 const hasLink = Boolean(href);
 ---
 
@@ -36,7 +37,8 @@ const hasLink = Boolean(href);
                       class="release-cover"
                       widths={[420, 640, 960]}
                       sizes="(max-width: 900px) 84vw, 360px"
-                      loading="lazy"
+                      loading={priority ? "eager" : "lazy"}
+                      fetchpriority={priority ? "high" : "auto"}
                       decoding="async"
                     />
                     <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
@@ -64,7 +66,8 @@ const hasLink = Boolean(href);
                       class="release-cover"
                       widths={[420, 640, 960]}
                       sizes="(max-width: 900px) 84vw, 360px"
-                      loading="lazy"
+                      loading={priority ? "eager" : "lazy"}
+                      fetchpriority={priority ? "high" : "auto"}
                       decoding="async"
                     />
                     <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
