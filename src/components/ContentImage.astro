@@ -3,7 +3,7 @@ import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 
 interface Props {
-  src: ImageMetadata;
+  src: ImageMetadata | string;
   alt: string;
   caption?: string;
   priority?: boolean;
@@ -19,17 +19,29 @@ const {
   widths = [640, 960, 1280],
   sizes = "(max-width: 900px) 92vw, 680px",
 } = Astro.props;
+const isStringSource = typeof src === "string";
 ---
 
 <figure class="content-image">
-  <Image
-    src={src}
-    alt={alt}
-    widths={widths}
-    sizes={sizes}
-    loading={priority ? "eager" : "lazy"}
-    fetchpriority={priority ? "high" : "auto"}
-    decoding="async"
-  />
+  {
+    isStringSource ? (
+      <img
+        src={src}
+        alt={alt}
+        loading={priority ? "eager" : "lazy"}
+        decoding="async"
+      />
+    ) : (
+      <Image
+        src={src}
+        alt={alt}
+        widths={widths}
+        sizes={sizes}
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "auto"}
+        decoding="async"
+      />
+    )
+  }
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

@@ -1,22 +1,72 @@
 ---
 import type { ImageMetadata } from "astro";
-import ContentImage from "./ContentImage.astro";
+import { Image } from "astro:assets";
 
 interface Props {
   src: ImageMetadata;
   alt: string;
   title?: string;
+  href?: string;
 }
 
-const { src, alt, title } = Astro.props;
+const { src, alt, title, href } = Astro.props;
+const hasLink = Boolean(href);
 ---
 
 <div class="release-artwork">
-  <ContentImage
-    src={src}
-    alt={alt}
-    caption={title ? `${title} artwork` : "Release artwork preview"}
-    widths={[420, 640, 960]}
-    sizes="(max-width: 900px) 86vw, 420px"
-  />
+  {
+    hasLink ? (
+      <a
+        class="release-artwork-link is-clickable"
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Open ${title ?? "this release"} page`}
+      >
+        <div class="release-artwork-mockup">
+          <div class="release-disc" aria-hidden="true">
+            <span class="release-disc-hole"></span>
+          </div>
+          <div class="release-case">
+            <Image
+              src={src}
+              alt={alt}
+              class="release-cover"
+              widths={[420, 640, 960]}
+              sizes="(max-width: 900px) 86vw, 420px"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="release-case-spine" aria-hidden="true"></span>
+            <span class="release-case-glare" aria-hidden="true"></span>
+          </div>
+        </div>
+      </a>
+    ) : (
+      <div class="release-artwork-link">
+        <div class="release-artwork-mockup">
+          <div class="release-disc" aria-hidden="true">
+            <span class="release-disc-hole"></span>
+          </div>
+          <div class="release-case">
+            <Image
+              src={src}
+              alt={alt}
+              class="release-cover"
+              widths={[420, 640, 960]}
+              sizes="(max-width: 900px) 86vw, 420px"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="release-case-spine" aria-hidden="true"></span>
+            <span class="release-case-glare" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+  <p class="release-artwork-caption">
+    {title ? `${title} artwork` : "Release artwork preview"}
+    {hasLink && " · Open on Bandcamp"}
+  </p>
 </div>

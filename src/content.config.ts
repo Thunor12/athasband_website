@@ -30,6 +30,7 @@ const releases = defineCollection({
       releaseDate: z.string(),
       artworkImage: image().optional(),
       artworkAlt: z.string().optional(),
+      bandcampUrl: z.string().url().optional(),
     }),
 });
 
