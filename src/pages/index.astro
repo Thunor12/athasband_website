@@ -31,7 +31,7 @@ const latestRelease = releases[0];
     logoAlt="Aþas band logo"
   />
 
-  <Section title="Listen">
+  <Section title="Listen" sectionId="listen">
     <div class="listen-panel">
       <p class="listen-meta">Liegetsliht — demo snippet</p>
       <audio class="song-player" controls preload="metadata">
@@ -42,13 +42,13 @@ const latestRelease = releases[0];
     </div>
   </Section>
 
-  <Section title="The Vision">
+  <Section title="The Vision" sectionId="vision">
     <div class="prose-panel">
       <Content />
     </div>
   </Section>
 
-  <Section title="Current Work">
+  <Section title="Current Work" sectionId="work">
     <div class="current-panel">
       <p>{home.data.status}</p>
       <ul class="current-highlights">
@@ -59,7 +59,7 @@ const latestRelease = releases[0];
     </div>
   </Section>
 
-  <Section title="Chronicles">
+  <Section title="Chronicles" sectionId="chronicles">
     <div class="teaser-grid">
       {
         latestUpdate && (
@@ -94,7 +94,7 @@ const latestRelease = releases[0];
     </div>
   </Section>
 
-  <Section title="Contact">
+  <Section title="Contact" sectionId="contact">
     <p class="contact-intro">
       For bookings, support slots, and collaborations, reach out directly.
     </p>
@@ -104,8 +104,4 @@ const latestRelease = releases[0];
     </div>
   </Section>
 
-  <aside class="social-side-panel" aria-label="Aþas social links">
-    <p class="social-side-title">Follow</p>
-    <SocialLinks socials={home.data.socials} />
-  </aside>
 </BaseLayout>
