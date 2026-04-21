@@ -7,6 +7,7 @@ interface Props {
   bannerText?: string;
   runicName?: string;
   availabilityText?: string;
+  bookingEmail?: string;
 }
 
 const {
@@ -14,9 +15,10 @@ const {
   tagline,
   logoSrc = "/image/Athas_Logo_transparent.png",
   logoAlt = "Aþas logo",
-  bannerText = "Melodic Black Metal — France",
+  bannerText,
   runicName = "ᚪᚦᚪᚴ",
-  availabilityText = "Available for booking · Open to label collaborations",
+  availabilityText,
+  bookingEmail,
 } = Astro.props;
 ---
 
@@ -27,4 +29,11 @@ const {
   <p class="hero-runes" aria-label="Runic inscription of Aþas">{runicName}</p>
   <p class="hero-availability">{availabilityText}</p>
   <img src={logoSrc} alt={logoAlt} class="hero-logo" />
+  {
+    bookingEmail && (
+      <p class="hero-contact">
+        Contact: <a href={`mailto:${bookingEmail}`}>{bookingEmail}</a>
+      </p>
+    )
+  }
 </header>
