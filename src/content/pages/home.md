@@ -3,7 +3,7 @@ title: "Aþas"
 tagline: "Anglo-Saxon mysticism · Dark fantasy"
 banner_text: "Melodic Black Metal"
 status: "With guitars and drums recorded, Aþas is finalizing debut material and preparing for release."
-bookingEmail: "booking@athas.band"
+bookingEmail: "thunorproject@gmail.com"
 socials:
   - name: "Instagram"
     url: "https://instagram.com/"

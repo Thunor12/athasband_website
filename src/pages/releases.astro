@@ -1,20 +1,31 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const releases = await getCollection("releases");
+const renderedReleases = await Promise.all(
+  releases.map(async (release) => {
+    const { Content } = await render(release);
+
+    return {
+      ...release,
+      Content,
+    };
+  }),
+);
 ---
 
 <BaseLayout title="Aþas | Releases" description="Aþas releases and status.">
   <h1>Releases</h1>
   <ul class="stack-list">
     {
-      releases.map((release) => (
+      renderedReleases.map((release) => (
         <li class="stack-item">
           <h2>{release.data.title}</h2>
           <p>{release.data.format}</p>
           <p>Status: {release.data.status}</p>
           <p>Release: {release.data.releaseDate}</p>
+          <release.Content />
         </li>
       ))
     }
