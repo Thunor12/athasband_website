@@ -709,6 +709,36 @@ p {
   padding: 1rem;
 }
 
+.stack-item > img {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin: 0.9rem auto;
+  border: 1px solid rgba(181, 150, 90, 0.28);
+}
+
+.update-image {
+  margin: 1rem 0;
+}
+
+.update-image :where(img) {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid rgba(181, 150, 90, 0.28);
+}
+
+.update-image figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.82rem;
+  color: #bdae89;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
 @media (max-width: 520px) {
   :root {
     --topbar-h: 2.85rem;

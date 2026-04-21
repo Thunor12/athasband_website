@@ -31,12 +31,15 @@ const releases = defineCollection({
 });
 
 const updates = defineCollection({
-  loader: glob({ base: "./src/content/updates", pattern: "**/*.md" }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    summary: z.string(),
-  }),
+  loader: glob({ base: "./src/content/updates", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      summary: z.string(),
+      coverImage: image().optional(),
+      coverAlt: z.string().optional(),
+    }),
 });
 
 export const collections = {
