@@ -23,43 +23,57 @@ const hasLink = Boolean(href);
         rel="noopener noreferrer"
         aria-label={`Open ${title ?? "this release"} page`}
       >
-        <div class="release-artwork-mockup">
-          <div class="release-disc" aria-hidden="true">
-            <span class="release-disc-hole"></span>
-          </div>
-          <div class="release-case">
-            <Image
-              src={src}
-              alt={alt}
-              class="release-cover"
-              widths={[420, 640, 960]}
-              sizes="(max-width: 900px) 86vw, 420px"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="release-case-spine" aria-hidden="true"></span>
-            <span class="release-case-glare" aria-hidden="true"></span>
+        <div class="atropos release-artwork-atropos" data-atropos>
+          <div class="atropos-scale">
+            <div class="atropos-rotate">
+              <div class="atropos-inner">
+                <div class="release-artwork-mockup">
+                  <span class="release-cd-shadow" aria-hidden="true" data-atropos-offset="-8"></span>
+                  <div class="release-cd-surface" data-atropos-offset="2">
+                    <Image
+                      src={src}
+                      alt={alt}
+                      class="release-cover"
+                      widths={[420, 640, 960]}
+                      sizes="(max-width: 900px) 84vw, 360px"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
+                    <span class="release-cd-rings" aria-hidden="true" data-atropos-offset="3"></span>
+                    <span class="release-cd-hole" aria-hidden="true" data-atropos-offset="9"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </a>
     ) : (
       <div class="release-artwork-link">
-        <div class="release-artwork-mockup">
-          <div class="release-disc" aria-hidden="true">
-            <span class="release-disc-hole"></span>
-          </div>
-          <div class="release-case">
-            <Image
-              src={src}
-              alt={alt}
-              class="release-cover"
-              widths={[420, 640, 960]}
-              sizes="(max-width: 900px) 86vw, 420px"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="release-case-spine" aria-hidden="true"></span>
-            <span class="release-case-glare" aria-hidden="true"></span>
+        <div class="atropos release-artwork-atropos" data-atropos>
+          <div class="atropos-scale">
+            <div class="atropos-rotate">
+              <div class="atropos-inner">
+                <div class="release-artwork-mockup">
+                  <span class="release-cd-shadow" aria-hidden="true" data-atropos-offset="-8"></span>
+                  <div class="release-cd-surface" data-atropos-offset="2">
+                    <Image
+                      src={src}
+                      alt={alt}
+                      class="release-cover"
+                      widths={[420, 640, 960]}
+                      sizes="(max-width: 900px) 84vw, 360px"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
+                    <span class="release-cd-rings" aria-hidden="true" data-atropos-offset="3"></span>
+                    <span class="release-cd-hole" aria-hidden="true" data-atropos-offset="9"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
