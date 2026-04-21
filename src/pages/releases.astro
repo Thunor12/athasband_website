@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ReleaseArtwork from "../components/ReleaseArtwork.astro";
+import defaultReleaseArtwork from "../assets/releases/unreleased_cd.jpg";
 
 const releases = await getCollection("releases");
 const renderedReleases = await Promise.all(
@@ -22,6 +24,11 @@ const renderedReleases = await Promise.all(
       renderedReleases.map((release) => (
         <li class="stack-item">
           <h2>{release.data.title}</h2>
+          <ReleaseArtwork
+            src={release.data.artworkImage ?? defaultReleaseArtwork}
+            alt={release.data.artworkAlt ?? `${release.data.title} artwork preview`}
+            title={release.data.title}
+          />
           <p>{release.data.format}</p>
           <p>Status: {release.data.status}</p>
           <p>Release: {release.data.releaseDate}</p>

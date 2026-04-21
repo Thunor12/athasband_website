@@ -21,13 +21,16 @@ const pages = defineCollection({
 });
 
 const releases = defineCollection({
-  loader: glob({ base: "./src/content/releases", pattern: "**/*.md" }),
-  schema: z.object({
-    title: z.string(),
-    format: z.string(),
-    status: z.string(),
-    releaseDate: z.string(),
-  }),
+  loader: glob({ base: "./src/content/releases", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      format: z.string(),
+      status: z.string(),
+      releaseDate: z.string(),
+      artworkImage: image().optional(),
+      artworkAlt: z.string().optional(),
+    }),
 });
 
 const updates = defineCollection({

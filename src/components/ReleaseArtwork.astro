@@ -1,0 +1,22 @@
+---
+import type { ImageMetadata } from "astro";
+import ContentImage from "./ContentImage.astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  title?: string;
+}
+
+const { src, alt, title } = Astro.props;
+---
+
+<div class="release-artwork">
+  <ContentImage
+    src={src}
+    alt={alt}
+    caption={title ? `${title} artwork` : "Release artwork preview"}
+    widths={[420, 640, 960]}
+    sizes="(max-width: 900px) 86vw, 420px"
+  />
+</div>
