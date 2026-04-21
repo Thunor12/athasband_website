@@ -1,0 +1,73 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const home = await getEntry("pages", "home");
+const releases = await getCollection("releases");
+const updates = await getCollection("updates");
+const { Content } = home ? await render(home) : { Content: null };
+
+const latestUpdate = updates.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+)[0];
+---
+
+<BaseLayout title="Aþas | Press Kit" description="Official press materials for Aþas.">
+  <h1>Press Kit</h1>
+
+  <section class="section">
+    <h2>Project positioning</h2>
+    <div class="presskit-panel">
+      <p class="presskit-intro">Melodic Black Metal — France.</p>
+      <p>Anglo-Saxon mysticism · Dark fantasy.</p>
+      <p>Available for booking and open to label collaborations.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Biography</h2>
+    <div class="presskit-panel">
+      {Content ? <Content /> : <p>Biography unavailable.</p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Current material</h2>
+    <div class="presskit-panel">
+      <p>Featured excerpt: Liegetsliht (excerpt from upcoming release)</p>
+      <audio class="song-player" controls preload="metadata">
+        <source src="/music/Liegetsliht_demo.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+      {releases[0] && (
+        <p>
+          Release status: {releases[0].data.title} — {releases[0].data.status}
+        </p>
+      )}
+      {latestUpdate && (
+        <p>
+          Latest update ({latestUpdate.data.date.toISOString().slice(0, 10)}):{" "}
+          {latestUpdate.data.summary}
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Links</h2>
+    <div class="presskit-panel">
+      <ul class="presskit-list">
+        {home?.data.socials.map((social) => (
+          <li>
+            <a href={social.url} target="_blank" rel="noreferrer">
+              {social.name}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href={`mailto:${home?.data.bookingEmail}`}>{home?.data.bookingEmail}</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

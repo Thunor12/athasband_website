@@ -25,6 +25,9 @@ const getSocialKey = (name: string) => name.trim().toLowerCase();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
@@ -35,6 +38,7 @@ const getSocialKey = (name: string) => name.trim().toLowerCase();
           <a href="/#vision">Vision</a>
           <a href="/#work">Work</a>
           <a href="/#chronicles">Chronicles</a>
+          <a href="/#presskit">Press Kit</a>
           <a href="/releases">Releases</a>
           <a href="/updates">Updates</a>
           <a href="/#contact">Contact</a>
@@ -92,5 +96,35 @@ const getSocialKey = (name: string) => name.trim().toLowerCase();
     <main class="container">
       <slot />
     </main>
+    <script is:inline>
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (!prefersReducedMotion) {
+        document.body.classList.add("js-reveal");
+        const sections = Array.from(document.querySelectorAll(".section"));
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.14,
+            rootMargin: "0px 0px -8% 0px",
+          },
+        );
+
+        sections.forEach((section, index) => {
+          section.style.setProperty("--reveal-delay", `${index * 70}ms`);
+          observer.observe(section);
+        });
+      }
+    </script>
   </body>
 </html>

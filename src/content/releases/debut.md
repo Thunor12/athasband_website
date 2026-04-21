@@ -1,7 +1,7 @@
 ---
 title: "Debut Material"
 format: "EP/Album (TBA)"
-status: "In finalization"
+status: "Being finalized"
 releaseDate: "TBA"
 ---
 The first Aþas release is currently being finalized.

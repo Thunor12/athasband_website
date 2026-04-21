@@ -67,7 +67,7 @@ a:hover {
     transparent 1px
   );
   background-size: 3px 3px;
-  opacity: 0.08;
+  opacity: 0.05;
 }
 
 .container {
@@ -125,7 +125,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(181, 150, 90, 0.26);
+  border: 1px solid rgba(181, 150, 90, 0.18);
   border-radius: 999px;
   padding: 0.2rem 0.56rem;
   font-size: 0.78rem;
@@ -186,7 +186,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.18;
   z-index: 0;
 }
 
@@ -241,6 +241,7 @@ h1 {
 h2 {
   font-family: "Ringbearer", "Times New Roman", serif;
   font-size: clamp(1.45rem, 3.8vw, 2.1rem);
+  letter-spacing: 0.1em;
   margin: 0 0 0.8rem;
 }
 
@@ -255,13 +256,67 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  gap: 0.1rem;
+  justify-content: center;
+  gap: 1.2rem;
   padding-top: 0;
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(181, 150, 90, 0.14);
   border-radius: 6px;
+}
+
+.js .hero {
+  animation: hero-enter 950ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.js .hero > * {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-item-enter 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.js .hero .hero-banner {
+  animation-delay: 120ms;
+}
+
+.js .hero h1 {
+  animation-delay: 230ms;
+}
+
+.js .hero .hero-runes {
+  animation-delay: 340ms;
+}
+
+.js .hero .hero-availability {
+  animation-delay: 450ms;
+}
+
+.js .hero .hero-logo {
+  animation-delay: 560ms;
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.992);
+    filter: saturate(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+}
+
+@keyframes hero-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero::before {
@@ -278,7 +333,7 @@ p {
     url("/image/athas-dark-fantasy-bg.jpg");
   background-size: cover;
   background-position: center 24%;
-  opacity: 0.24;
+  opacity: 0.14;
   filter: grayscale(1) contrast(1.08);
   pointer-events: none;
 }
@@ -303,20 +358,30 @@ p {
 
 .hero-banner {
   font-family: "EB Garamond", "Times New Roman", serif;
-  color: var(--muted);
+  color: #ebdfbf;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: clamp(0.7rem, 0.66rem + 0.18vw, 0.86rem);
+  letter-spacing: 0.12em;
+  font-size: clamp(0.84rem, 0.74rem + 0.34vw, 1.06rem);
+  font-weight: 600;
+  opacity: 0.85;
   margin: 0;
-  padding: 0.12rem 0.62rem;
-  border-top: 1px solid rgba(181, 150, 90, 0.22);
-  border-bottom: 1px solid rgba(181, 150, 90, 0.22);
+  padding: 0.22rem 0.74rem;
+  border-top: 1px solid rgba(220, 196, 123, 0.38);
+  border-bottom: 1px solid rgba(220, 196, 123, 0.38);
   background: linear-gradient(
     90deg,
-    rgba(181, 150, 90, 0.02) 0%,
-    rgba(181, 150, 90, 0.07) 50%,
-    rgba(181, 150, 90, 0.02) 100%
+    rgba(181, 150, 90, 0.08) 0%,
+    rgba(181, 150, 90, 0.2) 50%,
+    rgba(181, 150, 90, 0.08) 100%
   );
+}
+
+.hero-subline {
+  margin: -0.35rem 0 0;
+  color: #cfc6b0;
+  font-size: clamp(0.86rem, 0.76rem + 0.24vw, 1.02rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .hero-runes {
@@ -326,6 +391,16 @@ p {
   letter-spacing: 0.2em;
   margin: 0;
   text-shadow: 0 0 18px rgba(220, 196, 123, 0.2);
+  opacity: 0.6;
+}
+
+.hero-availability {
+  margin: 0;
+  color: #e0cd9e;
+  font-size: clamp(0.8rem, 0.72rem + 0.24vw, 0.94rem);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  opacity: 0.75;
 }
 
 .section {
@@ -342,6 +417,22 @@ p {
     rgba(181, 150, 90, 0.015) 28%,
     rgba(0, 0, 0, 0) 100%
   );
+  transition:
+    opacity 600ms ease,
+    transform 700ms cubic-bezier(0.21, 1, 0.2, 1),
+    filter 650ms ease;
+}
+
+#listen.section,
+#presskit.section {
+  background: linear-gradient(180deg, #b5965a1a, #00000057);
+  border-top: 1px solid rgba(181, 150, 90, 0.35);
+}
+
+#vision.section,
+#work.section {
+  background: #0000003a;
+  border-top: 1px solid rgba(181, 150, 90, 0.18);
 }
 
 .section h2 {
@@ -351,6 +442,19 @@ p {
 
 .section-content > :first-child {
   margin-top: 0;
+}
+
+.js-reveal .section {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: blur(4px);
+}
+
+.js-reveal .section.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 .prose-panel {
@@ -369,6 +473,7 @@ p {
   );
   padding: 0.85rem 0.95rem;
   border-radius: 5px;
+  box-shadow: 0 0 18px rgba(181, 150, 90, 0.08);
 }
 
 .listen-meta {
@@ -379,9 +484,16 @@ p {
   font-size: 0.94rem;
 }
 
+.listen-hook {
+  margin: 0 0 0.42rem;
+  color: #e0cd9e;
+  font-size: 0.95rem;
+}
+
 .song-player {
   width: 100%;
-  height: 38px;
+  height: 44px;
+  margin-top: 0.4rem;
   border-radius: 999px;
   filter: sepia(0.2) contrast(1.03);
 }
@@ -473,6 +585,27 @@ p {
 .teaser-link:hover {
   text-decoration: none;
   background: rgba(181, 150, 90, 0.14);
+}
+
+.presskit-panel {
+  border: 1px solid rgba(181, 150, 90, 0.24);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 0.8rem 0.9rem;
+}
+
+.presskit-intro {
+  margin: 0 0 0.5rem;
+  color: #dcc794;
+  font-family: "Ringbearer", "Times New Roman", serif;
+  font-size: 1rem;
+}
+
+.presskit-list {
+  margin: 0 0 0.7rem;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.36rem;
 }
 
 .contact-intro {
@@ -575,5 +708,23 @@ p {
   .topbar-social-link svg {
     width: 0.84rem;
     height: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero,
+  .js .hero > * {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .section,
+  .js-reveal .section,
+  .js-reveal .section.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
   }
 }

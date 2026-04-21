@@ -29,11 +29,14 @@ const latestRelease = releases[0];
     tagline={home.data.tagline}
     logoSrc="/image/Athas_Logo_transparent.png"
     logoAlt="Aþas band logo"
+    bannerText="Melodic Black Metal — France"
+    availabilityText="Available for booking · Open to label collaborations"
   />
 
   <Section title="Listen" sectionId="listen">
     <div class="listen-panel">
-      <p class="listen-meta">Liegetsliht — demo snippet</p>
+      <p class="listen-hook">A first descent into Athas.</p>
+      <p class="listen-meta">Liegetsliht — Excerpt from upcoming release</p>
       <audio class="song-player" controls preload="metadata">
         <source src="/music/Liegetsliht_demo.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
@@ -52,7 +55,7 @@ const latestRelease = releases[0];
     <div class="current-panel">
       <p>{home.data.status}</p>
       <ul class="current-highlights">
-        <li>Debut material in finalization.</li>
+        <li>Debut material is being finalized.</li>
         <li>Live lineup preparation underway.</li>
         <li>Open to label and promoter collaborations.</li>
       </ul>
@@ -91,6 +94,20 @@ const latestRelease = releases[0];
           </article>
         )
       }
+    </div>
+  </Section>
+
+  <Section title="Press Kit" sectionId="presskit">
+    <div class="presskit-panel">
+      <p class="presskit-intro">
+        Includes everything needed for booking, coverage, and collaborations.
+      </p>
+      <ul class="presskit-list">
+        <li>Band biography and project concept</li>
+        <li>Audio excerpts and release information</li>
+        <li>Visual identity assets and key links</li>
+      </ul>
+      <a class="teaser-link" href="/press-kit">Open full press kit</a>
     </div>
   </Section>
 
