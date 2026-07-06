@@ -1,4 +1,6 @@
 ---
+import bindRuneLeft from "../../public/image/hero/BindRune_1.jpg";
+import bindRuneRight from "../../public/image/hero/BindRune_2.jpg";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -25,6 +27,28 @@ const {
 ---
 
 <header class="hero">
+  <div class="hero-art" aria-hidden="true">
+    <Image
+      src={bindRuneLeft}
+      alt=""
+      class="hero-bindrune hero-bindrune-left"
+      width={1518}
+      height={2047}
+      loading="eager"
+      decoding="async"
+      sizes="38vw"
+    />
+    <Image
+      src={bindRuneRight}
+      alt=""
+      class="hero-bindrune hero-bindrune-right"
+      width={1518}
+      height={2047}
+      loading="eager"
+      decoding="async"
+      sizes="38vw"
+    />
+  </div>
   <p class="hero-banner">{bannerText}</p>
   <p class="hero-subline">{tagline}</p>
   <h1>{title}</h1>

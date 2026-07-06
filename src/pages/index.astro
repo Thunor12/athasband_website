@@ -56,26 +56,29 @@ const latestRelease = releases[0];
     <div class="current-panel">
       <p>{home.data.status}</p>
       <ul class="current-highlights">
-        <li>Debut material is being finalized.</li>
-        <li>Live lineup preparation underway.</li>
-        <li>Open to label and promoter collaborations.</li>
+        <li>Debut album <em>Dustsceáwung</em> — instruments and vocals tracked; mixing underway.</li>
+        <li>Live lineup rehearsing — preparing for the stage.</li>
+        <li>Open to label, promoter, and booking collaborations.</li>
       </ul>
     </div>
   </Section>
 
-  <Section title="Chronicles" sectionId="chronicles">
+  <Section title="Updates" sectionId="updates">
+    <p class="section-intro">
+      News and Instagram posts from Aþas — studio progress, lore, and announcements.
+    </p>
     <div class="teaser-grid">
       {
         latestUpdate && (
           <article class="teaser-card">
-            <p class="teaser-label">Latest update</p>
+            <p class="teaser-label">Latest post</p>
             <h3>{latestUpdate.data.title}</h3>
             <p class="teaser-meta">
               {latestUpdate.data.date.toISOString().slice(0, 10)}
             </p>
             <p>{latestUpdate.data.summary}</p>
             <a class="teaser-link" href="/updates">
-              Read all updates
+              View all updates
             </a>
           </article>
         )

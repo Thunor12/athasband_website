@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { updateCoverImages } from "../data/update-covers";
 
 const updates = await getCollection("updates");
 const sorted = updates.sort(
@@ -17,26 +18,86 @@ const renderedUpdates = await Promise.all(
     };
   }),
 );
+
+let priorityCoverUsed = false;
+const updatesWithCovers = renderedUpdates.map((entry) => {
+  const coverImage = updateCoverImages[entry.id];
+  const priorityCover = Boolean(coverImage && !priorityCoverUsed);
+
+  if (priorityCover) {
+    priorityCoverUsed = true;
+  }
+
+  return {
+    ...entry,
+    coverImage,
+    priorityCover,
+  };
+});
 ---
 
-<BaseLayout title="Aþas | Updates" description="News and progress updates from Aþas.">
+<BaseLayout title="Aþas | Updates" description="News and Instagram posts from Aþas.">
   <h1>Updates</h1>
+  <p class="page-intro">
+    Posts and announcements from the band — mirrored from
+    <a href="https://www.instagram.com/athas.band/" target="_blank" rel="noreferrer">@athas.band on Instagram</a>.
+  </p>
   <ul class="stack-list">
     {
-      renderedUpdates.map((entry) => (
+      updatesWithCovers.map((entry) => (
         <li class="stack-item">
+          <p class="update-type">
+            {entry.data.instagramUrl ? "Instagram post" : "Update"}
+            {entry.data.format && ` · ${entry.data.format}`}
+          </p>
           <h2>{entry.data.title}</h2>
+          {
+            entry.coverImage && (
+              <figure class="content-image">
+                <Image
+                  src={entry.coverImage}
+                  alt={entry.data.coverAlt ?? `${entry.data.title} image`}
+                  widths={[640, 960, 1280]}
+                  sizes="(max-width: 900px) 92vw, 680px"
+                  loading={entry.priorityCover ? "eager" : "lazy"}
+                  fetchpriority={entry.priorityCover ? "high" : "auto"}
+                  decoding="async"
+                />
+              </figure>
+            )
+          }
           <p>{entry.data.date.toISOString().slice(0, 10)}</p>
           <p>{entry.data.summary}</p>
           {
-            entry.data.coverImage && (
-              <Image
-                src={entry.data.coverImage}
-                alt={entry.data.coverAlt ?? `${entry.data.title} image`}
-                widths={[640, 960, 1280]}
-                sizes="(max-width: 900px) 92vw, 680px"
-                loading="lazy"
-              />
+            (entry.data.instagramUrl || entry.data.instagramReelUrl) && (
+              <p class="update-instagram-links">
+                {
+                  entry.data.instagramUrl && (
+                    <a
+                      href={entry.data.instagramUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View on Instagram
+                      {entry.data.format === "reel" ? " (reel)" : ""}
+                    </a>
+                  )
+                }
+                {
+                  entry.data.instagramReelUrl && (
+                    <>
+                      {entry.data.instagramUrl && " · "}
+                      <a
+                        href={entry.data.instagramReelUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Watch reel
+                      </a>
+                    </>
+                  )
+                }
+              </p>
             )
           }
           <entry.Content />
