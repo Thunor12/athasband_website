@@ -9,6 +9,8 @@ socials:
     url: "https://www.instagram.com/athas.band/"
   - name: "YouTube"
     url: "https://youtube.com/"
+  - name: "Bandcamp"
+    url: "https://athasband.bandcamp.com/"
 seoTitle: "Aþas | Melodic Black Metal"
 seoDescription: "Aþas blends melodic black metal with pre-Conquest Anglo-Saxon mysticism and dark fantasy : ruined kingdoms, sacred flames, and forgotten oaths."
 ---

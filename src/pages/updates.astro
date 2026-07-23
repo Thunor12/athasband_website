@@ -52,7 +52,7 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
             entry.data.coverImage && (
               <ContentImage
                 src={entry.data.coverImage}
-                alt={entry.data.coverAlt ?? `${entry.data.title} image`}
+                alt={entry.data.coverAlt ?? entry.data.title}
                 priority={entry.priorityCover}
               />
             )

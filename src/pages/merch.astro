@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MerchItem from "../components/MerchItem.astro";
+
+const items = await getCollection("merch");
+const sorted = items.sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
+);
+const rendered = await Promise.all(
+  sorted.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { ...entry, Content };
+  }),
+);
+---
+
+<BaseLayout
+  title="Aþas | Merch"
+  description="Official Aþas merch and Bandcamp shop — apparel, accessories, and releases."
+>
+  <h1>Merch</h1>
+  <p class="page-intro">
+    Prototype catalog. Purchases go through
+    <a href="https://athasband.bandcamp.com/" target="_blank" rel="noreferrer"
+      >athasband.bandcamp.com</a
+    >
+    when items are listed. Placeholder art until final product photos land.
+  </p>
+
+  <div class="merch-grid">
+    {
+      rendered.map((item, index) => (
+        <MerchItem
+          title={item.data.title}
+          kind={item.data.kind}
+          price={item.data.price}
+          status={item.data.status}
+          buyUrl={item.data.buyUrl}
+          image={item.data.image}
+          imageAlt={item.data.imageAlt}
+          priority={index === 0}
+        >
+          <item.Content />
+        </MerchItem>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .merch-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  }
+</style>

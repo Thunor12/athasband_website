@@ -49,8 +49,24 @@ const updates = defineCollection({
     }),
 });
 
+const merch = defineCollection({
+  loader: glob({ base: "./src/content/merch", pattern: "**/*.{md,mdx}" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      kind: z.enum(["apparel", "music", "accessory", "other"]),
+      price: z.string(),
+      status: z.enum(["available", "coming-soon", "sold-out"]).default("coming-soon"),
+      buyUrl: z.string().url().optional(),
+      image: image().optional(),
+      imageAlt: z.string().optional(),
+      order: z.number().optional(),
+    }),
+});
+
 export const collections = {
   pages,
   releases,
   updates,
+  merch,
 };

@@ -1,0 +1,185 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import Panel from "./Panel.astro";
+
+interface Props {
+  title: string;
+  kind: string;
+  price: string;
+  status: "available" | "coming-soon" | "sold-out";
+  buyUrl?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  priority?: boolean;
+}
+
+const {
+  title,
+  kind,
+  price,
+  status,
+  buyUrl,
+  image,
+  imageAlt,
+  priority = false,
+} = Astro.props;
+
+const statusLabel =
+  status === "available"
+    ? "Available"
+    : status === "sold-out"
+      ? "Sold out"
+      : "Coming soon";
+
+const canBuy = status === "available" && Boolean(buyUrl);
+---
+
+<article class="merch-item">
+  <Panel>
+    {
+      image && (
+        <figure class="merch-figure">
+          <Image
+            src={image}
+            alt={imageAlt ?? `${title} product`}
+            widths={[320, 480, 640]}
+            sizes="(max-width: 900px) 42vw, 280px"
+            loading="eager"
+            fetchpriority={priority ? "high" : "auto"}
+            decoding="async"
+          />
+        </figure>
+      )
+    }
+    <p class="merch-kind">{kind}</p>
+    <h2>{title}</h2>
+    <p class="merch-meta">
+      <span class="merch-price">{price}</span>
+      <span class="merch-status" data-status={status}>{statusLabel}</span>
+    </p>
+    <div class="merch-body">
+      <slot />
+    </div>
+    {
+      canBuy ? (
+        <a class="merch-cta" href={buyUrl} target="_blank" rel="noreferrer">
+          Buy on Bandcamp
+        </a>
+      ) : buyUrl ? (
+        <a class="merch-cta is-muted" href={buyUrl} target="_blank" rel="noreferrer">
+          View shop
+        </a>
+      ) : (
+        <span class="merch-cta is-muted is-disabled">Unavailable</span>
+      )
+    }
+  </Panel>
+</article>
+
+<style>
+  .merch-item {
+    height: 100%;
+  }
+
+  .merch-figure {
+    margin: 0 0 0.85rem;
+  }
+
+  .merch-figure :global(img) {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    margin: 0 auto;
+    border: 1px solid rgba(181, 150, 90, 0.28);
+    background: rgba(0, 0, 0, 0.35);
+  }
+
+  .merch-kind {
+    margin: 0 0 0.25rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #c8b58c;
+  }
+
+  h2 {
+    margin: 0 0 0.4rem;
+    color: #dcc794;
+    font-size: 1.14rem;
+    font-family: "Ringbearer", "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .merch-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem 0.85rem;
+    margin: 0 0 0.65rem;
+    align-items: baseline;
+  }
+
+  .merch-price {
+    color: #e0cd9e;
+    font-size: 1.02rem;
+  }
+
+  .merch-status {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #bbaf94;
+  }
+
+  .merch-status[data-status="available"] {
+    color: #c8d4a8;
+  }
+
+  .merch-status[data-status="sold-out"] {
+    color: #a8988a;
+  }
+
+  .merch-body {
+    margin-bottom: 0.85rem;
+    color: #cec7b5;
+    font-size: 0.95rem;
+  }
+
+  .merch-body :global(p) {
+    margin: 0 0 0.5rem;
+  }
+
+  .merch-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .merch-cta {
+    display: inline-block;
+    border: 1px solid rgba(181, 150, 90, 0.35);
+    border-radius: 999px;
+    padding: 0.22rem 0.7rem;
+    font-size: 0.84rem;
+    color: #e0cd9e;
+  }
+
+  .merch-cta:hover {
+    text-decoration: none;
+    background: rgba(181, 150, 90, 0.14);
+  }
+
+  .merch-cta.is-muted {
+    color: #cfc6b0;
+    border-color: rgba(181, 150, 90, 0.22);
+  }
+
+  .merch-cta.is-disabled {
+    cursor: default;
+    opacity: 0.65;
+  }
+
+  .merch-cta.is-disabled:hover {
+    background: transparent;
+  }
+</style>
