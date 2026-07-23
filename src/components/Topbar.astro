@@ -1,0 +1,207 @@
+---
+interface Social {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  socials: Social[];
+}
+
+const { socials } = Astro.props;
+
+const getSocialKey = (name: string) => name.trim().toLowerCase();
+---
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="/">Aþas</a>
+    <nav class="topbar-nav" aria-label="Primary">
+      <a href="/#listen">Listen</a>
+      <a href="/updates">Updates</a>
+      <a href="/press-kit">Press Kit</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <div class="topbar-socials" aria-label="Social links">
+      {
+        socials.map((social) => {
+          const socialKey = getSocialKey(social.name);
+          return (
+            <a
+              class="topbar-social-link"
+              href={social.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={social.name}
+              title={social.name}
+            >
+              {
+                socialKey === "instagram" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5a4.25 4.25 0 0 0-4.25-4.25h-8.5Zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm5.63-.63a1.12 1.12 0 1 1 0 2.25 1.12 1.12 0 0 1 0-2.25Z" />
+                  </svg>
+                )
+              }
+              {
+                socialKey === "youtube" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M21.58 7.2a2.95 2.95 0 0 0-2.08-2.08C17.67 4.6 12 4.6 12 4.6s-5.67 0-7.5.52A2.95 2.95 0 0 0 2.42 7.2 30.3 30.3 0 0 0 2 12a30.3 30.3 0 0 0 .42 4.8 2.95 2.95 0 0 0 2.08 2.08C6.33 19.4 12 19.4 12 19.4s5.67 0 7.5-.52a2.95 2.95 0 0 0 2.08-2.08A30.3 30.3 0 0 0 22 12a30.3 30.3 0 0 0-.42-4.8ZM10.1 15.14V8.86L15.36 12l-5.26 3.14Z" />
+                  </svg>
+                )
+              }
+              {
+                socialKey === "bandcamp" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7.34 6h13.33L16.66 18H3.33L7.34 6Zm1.07 1.5L5.45 16.5h10.13L18.55 7.5H8.41Z" />
+                  </svg>
+                )
+              }
+              {!["instagram", "youtube", "bandcamp"].includes(socialKey) && (
+                <span>{social.name.slice(0, 1).toUpperCase()}</span>
+              )}
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 6;
+    border-bottom: 1px solid rgba(181, 150, 90, 0.24);
+    background: rgba(6, 6, 8, 0.82);
+    backdrop-filter: blur(4px);
+  }
+
+  .topbar-inner {
+    width: min(92vw, 900px);
+    margin: 0 auto;
+    min-height: var(--topbar-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+  }
+
+  .topbar-brand {
+    font-family: "Ringbearer", "Times New Roman", serif;
+    color: #e0cd9e;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  .topbar-brand:hover {
+    color: #f2e4c5;
+  }
+
+  .topbar-nav {
+    display: flex;
+    gap: 0.32rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .topbar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topbar-nav a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(181, 150, 90, 0.18);
+    border-radius: 999px;
+    padding: 0.2rem 0.56rem;
+    font-size: 0.78rem;
+    color: #d2c8b0;
+    text-decoration: none;
+  }
+
+  .topbar-nav a:hover {
+    border-color: rgba(220, 196, 123, 0.8);
+    background: rgba(181, 150, 90, 0.16);
+    color: #f2e4c5;
+  }
+
+  .topbar-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .topbar-social-link {
+    width: 1.72rem;
+    height: 1.72rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(181, 150, 90, 0.3);
+    border-radius: 999px;
+    color: #d8c18b;
+    background: rgba(181, 150, 90, 0.08);
+    text-decoration: none;
+  }
+
+  .topbar-social-link svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    display: block;
+    fill: currentColor;
+  }
+
+  .topbar-social-link span {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .topbar-social-link:hover {
+    border-color: rgba(220, 196, 123, 0.8);
+    background: rgba(181, 150, 90, 0.16);
+    color: #f2e4c5;
+  }
+
+  @media (max-width: 520px) {
+    :root {
+      --topbar-h: 2.85rem;
+    }
+
+    .topbar-inner {
+      gap: 0.35rem;
+    }
+
+    .topbar-brand {
+      font-size: 0.84rem;
+    }
+
+    .topbar-nav a {
+      font-size: 0.69rem;
+      padding: 0.14rem 0.42rem;
+    }
+
+    .topbar-socials {
+      gap: 0.2rem;
+    }
+
+    .topbar-social-link {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    .topbar-social-link svg {
+      width: 0.84rem;
+      height: 0.84rem;
+    }
+  }
+</style>

@@ -1,0 +1,75 @@
+/* Page sections — Section.astro + raw <section class="section"> blocks.
+   Global because sections span multiple pages and are driven by the
+   reveal IntersectionObserver in BaseLayout (body.js-reveal). */
+
+.section {
+  border-top: 1px solid rgba(181, 150, 90, 0.22);
+  scroll-margin-top: 4.3rem;
+  padding-top: 1.2rem;
+  margin-top: 1.5rem;
+  padding-inline: 1rem;
+  padding-bottom: 1rem;
+  border-radius: 6px;
+  background: linear-gradient(
+    180deg,
+    rgba(181, 150, 90, 0.07) 0%,
+    rgba(181, 150, 90, 0.015) 28%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  transition:
+    opacity 600ms ease,
+    transform 700ms cubic-bezier(0.21, 1, 0.2, 1),
+    filter 650ms ease;
+}
+
+#listen.section,
+#presskit.section {
+  background: linear-gradient(180deg, #b5965a1a, #00000057);
+  border-top: 1px solid rgba(181, 150, 90, 0.35);
+}
+
+#vision.section,
+#work.section {
+  background: #0000003a;
+  border-top: 1px solid rgba(181, 150, 90, 0.18);
+}
+
+.section h2 {
+  color: #d8c18b;
+  margin-bottom: 0.9rem;
+}
+
+.section-content > :first-child {
+  margin-top: 0;
+}
+
+.section-intro,
+.page-intro {
+  margin: 0 0 1rem;
+  color: #c9c2b0;
+  max-width: 42rem;
+}
+
+.js-reveal .section {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  filter: blur(4px);
+}
+
+.js-reveal .section.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section,
+  .js-reveal .section,
+  .js-reveal .section.is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}

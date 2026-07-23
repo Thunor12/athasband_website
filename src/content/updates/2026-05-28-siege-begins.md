@@ -1,10 +1,11 @@
 ---
 title: "The Siege Begins"
 date: 2026-05-28
-summary: "Live lineup revitalized — rehearsals underway for the stage."
+summary: "Live lineup revitalized : rehearsals underway for the stage."
+coverImage: "../../assets/updates/2026-05-28-siege-begins.webp"
 instagramUrl: "https://www.instagram.com/p/DY48uCgtt3O/"
 format: carousel
-coverAlt: "The Siege Begins — live lineup announcement"
+coverAlt: "The Siege Begins : live lineup announcement"
 ---
 
 With a revitalized live lineup, we are fully immersed in rehearsals and sharpening our blades for the stage. Aþas is preparing to bring melodic black metal violence to the live circuit.

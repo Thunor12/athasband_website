@@ -1,5 +1,7 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
+import AudioPlayer from "../components/AudioPlayer.astro";
+import Panel from "../components/Panel.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const home = await getEntry("pages", "home");
@@ -17,58 +19,55 @@ const latestUpdate = updates.sort(
 
   <section class="section">
     <h2>Project positioning</h2>
-    <div class="presskit-panel">
+    <Panel>
       <p class="presskit-intro">Melodic Black Metal</p>
       <p>Anglo-Saxon mysticism · Dark fantasy</p>
       <p>Available for booking and open to label collaborations.</p>
-    </div>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Synopsis</h2>
-    <div class="presskit-panel">
+    <Panel>
       <h3>English</h3>
       <p>
-        ATHAS (or Aþas, Old English for "oaths") is a melodic black metal band shaped by dark fantasy, pre-Conquest Anglo-Saxon mysticism, and the worlds of Dark Souls and Elden Ring. Between savage intensity, mournful melody, and ritual atmosphere, the band explores decay, memory, obsession, and inner confrontation through ruined kingdoms, sacred flames, and forgotten vows. ATHAS draws on a tragic view of human nature—where past grandeur persists amid collapse, wear, and the erosion of meaning—seeking balance between the epic and the brutal, the majestic and the declining. Their music blends melodic black metal, death-metal weight, ritual ambience, and Old English–inflected lyrics into a sound that feels ancient, immersive, and deeply emotional.
+        ATHAS (or Aþas, Old English for "oaths") is a melodic black metal band shaped by dark fantasy, pre-Conquest Anglo-Saxon mysticism, and the worlds of Dark Souls and Elden Ring. Between savage intensity, mournful melody, and ritual atmosphere, the band explores decay, memory, obsession, and inner confrontation through ruined kingdoms, sacred flames, and forgotten vows. ATHAS draws on a tragic view of human nature: where past grandeur persists amid collapse, wear, and the erosion of meaning: seeking balance between the epic and the brutal, the majestic and the declining. Their music blends melodic black metal, death-metal weight, ritual ambience, and Old English–inflected lyrics into a sound that feels ancient, immersive, and deeply emotional.
       </p>
       <h3>Français</h3>
       <p>
         ATHAS (ou Aþas, en vieil anglais « serments ») est un groupe de black metal mélodique nourri par la dark fantasy, le mysticisme anglo-saxon d'avant 1066 et les univers de Dark Souls et Elden Ring. Entre violence sauvage, mélodies mélancoliques et atmosphères rituelles, il explore le déclin, la mémoire, l'obsession et la confrontation intérieure à travers des royaumes en ruine, des flammes sacrées et des serments oubliés. ATHAS puise dans une vision tragique de la nature humaine, où la grandeur passée subsiste au milieu de l'effondrement, de l'usure et de la perte de sens, et cherche l'équilibre entre l'épique et le brutal, le majestueux et le déclinant. Sa musique associe black metal mélodique, intensité death metal, ambiances rituelles et écriture inspirée du vieil anglais pour une œuvre à la fois ancienne, immersive et profondément émotionnelle.
       </p>
-    </div>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Name &amp; etymology</h2>
-    <div class="presskit-panel">
+    <Panel>
       <p>
         From Old English <strong>āþas</strong> (pl. of <strong>āþ</strong>), from Proto-Germanic <em>aiþaz</em>: "oaths." Cognate with Gothic <em>aiþs</em>, German <em>Eid</em>, and modern English <em>oath</em>.
       </p>
-      <p>Aþas — melodic black metal from the dark ages.</p>
-    </div>
+      <p>Aþas : melodic black metal from the dark ages.</p>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Biography</h2>
-    <div class="presskit-panel">
+    <Panel>
       {Content ? <Content /> : <p>Biography unavailable.</p>}
-    </div>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Current material</h2>
-    <div class="presskit-panel">
+    <Panel>
       <p>
-        <strong>Debut album:</strong> <em>Dustsceáwung</em> (forthcoming) — five tracks, all intended for live performance.
+        <strong>Debut album:</strong> <em>Dustsceáwung</em> (forthcoming) : five tracks, all intended for live performance.
       </p>
       <p>Featured excerpt: Liegetsliht (demo from upcoming release)</p>
-      <audio class="song-player" controls preload="metadata">
-        <source src="/music/Liegetsliht_demo.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      <AudioPlayer src="/music/Liegetsliht_demo.mp3" />
       {releases[0] && (
         <p>
-          Release status: {releases[0].data.title} — {releases[0].data.status}
+          Release status: {releases[0].data.title} : {releases[0].data.status}
         </p>
       )}
       {latestUpdate && (
@@ -77,23 +76,23 @@ const latestUpdate = updates.sort(
           {latestUpdate.data.summary}
         </p>
       )}
-    </div>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Credits</h2>
-    <div class="presskit-panel">
+    <Panel>
       <ul class="presskit-list">
-        <li>Logo &amp; illustrations — <a href="https://www.instagram.com/dyrmaor" target="_blank" rel="noreferrer">@dyrmaor</a></li>
-        <li>Drums — <a href="https://www.instagram.com/loerk" target="_blank" rel="noreferrer">@loerk</a></li>
-        <li>Vocal sessions — <a href="https://www.instagram.com/d.n.i_studio" target="_blank" rel="noreferrer">D.N.I Studio</a></li>
+        <li>Logo &amp; illustrations : <a href="https://www.instagram.com/dyrmaor" target="_blank" rel="noreferrer">@dyrmaor</a></li>
+        <li>Drums : <a href="https://www.instagram.com/loerk" target="_blank" rel="noreferrer">@loerk</a></li>
+        <li>Vocal sessions : <a href="https://www.instagram.com/d.n.i_studio" target="_blank" rel="noreferrer">D.N.I Studio</a></li>
       </ul>
-    </div>
+    </Panel>
   </section>
 
   <section class="section">
     <h2>Links</h2>
-    <div class="presskit-panel">
+    <Panel>
       <ul class="presskit-list">
         {home?.data.socials.map((social) => (
           <li>
@@ -106,6 +105,35 @@ const latestUpdate = updates.sort(
           <a href={`mailto:${home?.data.bookingEmail}`}>{home?.data.bookingEmail}</a>
         </li>
       </ul>
-    </div>
+    </Panel>
   </section>
 </BaseLayout>
+
+<style>
+  .presskit-intro {
+    margin: 0 0 0.5rem;
+    color: #dcc794;
+    font-family: "Ringbearer", "Times New Roman", serif;
+    font-size: 1rem;
+  }
+
+  h3 {
+    margin: 1rem 0 0.45rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #bdae89;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  h3:first-child {
+    margin-top: 0;
+  }
+
+  .presskit-list {
+    margin: 0 0 0.7rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.36rem;
+  }
+</style>

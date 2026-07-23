@@ -1,0 +1,7 @@
+.container {
+  width: min(92vw, 900px);
+  margin: 0 auto;
+  padding: calc(var(--topbar-h) + 0.35rem) 0 2.2rem;
+  position: relative;
+  z-index: 1;
+}

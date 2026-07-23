@@ -1,7 +1,8 @@
 ---
-title: "Wesaþ ge Hale — Vocal Session at DNI"
+title: "Wesaþ ge Hale : Vocal Session at DNI"
 date: 2026-06-01
 summary: "Two songs recorded with lead and backing vocals at D.N.I Studio."
+coverImage: "../../assets/updates/2026-06-01-studio-vocals-dni.webp"
 instagramUrl: "https://www.instagram.com/p/DZDNR76DTfh/"
 instagramReelUrl: "https://www.instagram.com/reel/DZDQd-mtGin/"
 format: carousel

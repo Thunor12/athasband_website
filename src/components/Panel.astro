@@ -1,0 +1,32 @@
+---
+interface Props {
+  variant?: "default" | "feature";
+  class?: string;
+}
+
+const { variant = "default", class: className } = Astro.props;
+---
+
+<div class:list={["panel", { feature: variant === "feature" }, className]}>
+  <slot />
+</div>
+
+<style>
+  .panel {
+    border: 1px solid rgba(181, 150, 90, 0.24);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    padding: 0.8rem 0.95rem;
+  }
+
+  .panel.feature {
+    border-color: rgba(181, 150, 90, 0.28);
+    border-radius: 5px;
+    background: linear-gradient(
+      180deg,
+      rgba(181, 150, 90, 0.1) 0%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+    box-shadow: 0 0 18px rgba(181, 150, 90, 0.08);
+  }
+</style>

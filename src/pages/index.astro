@@ -1,7 +1,10 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
+import AudioPlayer from "../components/AudioPlayer.astro";
+import Card from "../components/Card.astro";
 import ContactBlock from "../components/ContactBlock.astro";
 import Hero from "../components/Hero.astro";
+import Panel from "../components/Panel.astro";
 import Section from "../components/Section.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -35,74 +38,69 @@ const latestRelease = releases[0];
   />
 
   <Section title="Listen" sectionId="listen">
-    <div class="listen-panel">
+    <Panel variant="feature">
       <p class="listen-hook">A first descent into Athas.</p>
-      <p class="listen-meta">Liegetsliht — Excerpt from upcoming release</p>
-      <audio class="song-player" controls preload="metadata">
-        <source src="/music/Liegetsliht_demo.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      <p class="listen-meta">Liegetsliht : Excerpt from upcoming release</p>
+      <AudioPlayer src="/music/Liegetsliht_demo.mp3" />
       <p class="listen-note">Demo excerpt. Full release forthcoming.</p>
-    </div>
+    </Panel>
   </Section>
 
   <Section title="The Vision" sectionId="vision">
-    <div class="prose-panel">
-      <Content />
-    </div>
+    <Panel>
+      <div class="vision"><Content /></div>
+    </Panel>
   </Section>
 
   <Section title="Current Work" sectionId="work">
-    <div class="current-panel">
-      <p>{home.data.status}</p>
+    <Panel>
+      <p class="status">{home.data.status}</p>
       <ul class="current-highlights">
-        <li>Debut album <em>Dustsceáwung</em> — instruments and vocals tracked; mixing underway.</li>
-        <li>Live lineup rehearsing — preparing for the stage.</li>
+        <li>Debut album <em>Dustsceáwung</em> : instruments and vocals tracked; mixing underway.</li>
+        <li>Live lineup rehearsing : preparing for the stage.</li>
         <li>Open to label, promoter, and booking collaborations.</li>
       </ul>
-    </div>
+    </Panel>
   </Section>
 
   <Section title="Updates" sectionId="updates">
     <p class="section-intro">
-      News and Instagram posts from Aþas — studio progress, lore, and announcements.
+      News and Instagram posts from Aþas : studio progress, lore, and announcements.
     </p>
     <div class="teaser-grid">
       {
         latestUpdate && (
-          <article class="teaser-card">
-            <p class="teaser-label">Latest post</p>
-            <h3>{latestUpdate.data.title}</h3>
-            <p class="teaser-meta">
-              {latestUpdate.data.date.toISOString().slice(0, 10)}
-            </p>
-            <p>{latestUpdate.data.summary}</p>
-            <a class="teaser-link" href="/updates">
-              View all updates
-            </a>
-          </article>
+          <Card
+            label="Latest post"
+            title={latestUpdate.data.title}
+            meta={latestUpdate.data.date.toISOString().slice(0, 10)}
+            lines={[latestUpdate.data.summary]}
+            href="/updates"
+            linkText="View all updates"
+          />
         )
       }
 
       {
         latestRelease && (
-          <article class="teaser-card">
-            <p class="teaser-label">Current release</p>
-            <h3>{latestRelease.data.title}</h3>
-            <p class="teaser-meta">{latestRelease.data.format}</p>
-            <p>Status: {latestRelease.data.status}</p>
-            <p>Release: {latestRelease.data.releaseDate}</p>
-            <a class="teaser-link" href="/releases">
-              View releases
-            </a>
-          </article>
+          <Card
+            label="Current release"
+            title={latestRelease.data.title}
+            meta={latestRelease.data.format}
+            lines={[
+              `Status: ${latestRelease.data.status}`,
+              `Release: ${latestRelease.data.releaseDate}`,
+            ]}
+            href="/releases"
+            linkText="View releases"
+          />
         )
       }
     </div>
   </Section>
 
   <Section title="Press Kit" sectionId="presskit">
-    <div class="presskit-panel">
+    <Panel>
       <p class="presskit-intro">
         Includes everything needed for booking, coverage, and collaborations.
       </p>
@@ -111,8 +109,8 @@ const latestRelease = releases[0];
         <li>Audio excerpts and release information</li>
         <li>Visual identity assets and key links</li>
       </ul>
-      <a class="teaser-link" href="/press-kit">Open full press kit</a>
-    </div>
+      <a class="cta" href="/press-kit">Open full press kit</a>
+    </Panel>
   </Section>
 
   <Section title="Contact" sectionId="contact">
@@ -124,5 +122,89 @@ const latestRelease = releases[0];
       <SocialLinks socials={home.data.socials} />
     </div>
   </Section>
-
 </BaseLayout>
+
+<style>
+  .listen-hook {
+    margin: 0 0 0.42rem;
+    color: #e0cd9e;
+    font-size: 0.95rem;
+  }
+
+  .listen-meta {
+    margin: 0 0 0.55rem;
+    font-family: "Ringbearer", "Times New Roman", serif;
+    color: #d8c18b;
+    letter-spacing: 0.06em;
+    font-size: 0.94rem;
+  }
+
+  .listen-note {
+    margin: 0.55rem 0 0;
+    color: #bdb5a2;
+    font-size: 0.9rem;
+  }
+
+  .vision :global(p) {
+    margin: 0 0 0.85rem;
+    font-size: clamp(0.8rem, 0.7rem + 0.24vw, 0.94rem);
+  }
+
+  .vision :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .status {
+    margin: 0 0 0.75rem;
+  }
+
+  .current-highlights {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.4rem;
+    color: #cec7b5;
+  }
+
+  .teaser-grid {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .presskit-intro {
+    margin: 0 0 0.5rem;
+    color: #dcc794;
+    font-family: "Ringbearer", "Times New Roman", serif;
+    font-size: 1rem;
+  }
+
+  .presskit-list {
+    margin: 0 0 0.7rem;
+    padding-left: 1.1rem;
+    display: grid;
+    gap: 0.36rem;
+  }
+
+  .cta {
+    display: inline-block;
+    border: 1px solid rgba(181, 150, 90, 0.35);
+    border-radius: 999px;
+    padding: 0.2rem 0.62rem;
+    font-size: 0.84rem;
+    color: #e0cd9e;
+  }
+
+  .cta:hover {
+    text-decoration: none;
+    background: rgba(181, 150, 90, 0.14);
+  }
+
+  .contact-intro {
+    margin: 0 0 0.8rem;
+    color: #c9c2b0;
+  }
+
+  .contact-socials {
+    display: block;
+  }
+</style>

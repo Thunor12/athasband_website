@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap");
+@import "atropos/css";
+
+@font-face {
+  font-family: "Aniron";
+  src: url("/fonts/aniron-font/Aniron-7BaP.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aniron";
+  src: url("/fonts/aniron-font/AnironBold-mL9P.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Ringbearer";
+  src: url("/fonts/ringbearer-font/RingbearerMedium-51mgZ.ttf")
+    format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

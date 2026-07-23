@@ -1,0 +1,10 @@
+:root {
+  --bg: #09090b;
+  --text: #d9d9dd;
+  --muted: #9ea2a8;
+  --line: #2a2c31;
+  --accent: #c3c7cf;
+  --gold: #b5965a;
+  --gold-faint: rgba(181, 150, 90, 0.16);
+  --topbar-h: 3.05rem;
+}

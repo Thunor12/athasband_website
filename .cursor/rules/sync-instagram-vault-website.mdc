@@ -1,0 +1,39 @@
+---
+description: Keep Athas published Instagram posts synced across Instagram, Anglos-Vault, and this website.
+alwaysApply: true
+---
+
+# Sync published posts (Instagram · vault · website)
+
+When adding or updating **published** Athas social posts, update **all three** places in the same turn. Never update only the website or only the vault.
+
+## Sources of truth
+
+| Layer | Location |
+|---|---|
+| Live feed | https://www.instagram.com/athas.band |
+| Vault archive | `/mnt/c/Users/lucas/source/extracted_yt/1/Anglos-Vault/` (`Post - *.md` + `Social media pipeline.md`) |
+| Website | `src/content/updates/*.md(x)` + covers in `src/assets/updates/` |
+
+## Checklist for every newly published post
+
+1. **Instagram** — Confirm permalink, format (`post` / `carousel` / `reel`), publish date, and live caption (fetch profile API or ask the user).
+2. **Vault** — Create or promote a `Post - … (Instagram).md` note:
+   - Set `**Status:** published`, `**Published:**`, `**URL:**`, `**Post id:**`, `**Format:**`
+   - Paste the live caption under `## Published caption`
+   - Prefer updating an existing draft/ready note over creating a duplicate
+   - Append a row to the Published table in `Social media pipeline.md`
+3. **Website** — Add `src/content/updates/YYYY-MM-DD-slug.md` with frontmatter (`title`, `date`, `summary`, `coverImage`, `instagramUrl`, `format`, `coverAlt`) and a short polished body (canonical **Wesaþ** spelling).
+4. **Cover** — Save the feed thumbnail (or a better still) to `src/assets/updates/YYYY-MM-DD-slug.{jpg,webp}` and point `coverImage` at it.
+
+## Mapping conventions
+
+- Vault note: `Post - [Title] (Instagram).md` or `(Instagram reel).md`
+- Website slug: `YYYY-MM-DD-kebab-title.md` matching the cover filename stem
+- Instagram URL field on the site: `instagramUrl` (optional `instagramReelUrl` when both exist)
+
+## Do not
+
+- Ship website-only or vault-only updates for a live Instagram post
+- Leave vault notes as `draft` / `ready` after they are live
+- Invent permalinks or captions — use the live post

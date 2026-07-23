@@ -41,6 +41,7 @@ const updates = defineCollection({
       title: z.string(),
       date: z.coerce.date(),
       summary: z.string(),
+      coverImage: image().optional(),
       coverAlt: z.string().optional(),
       instagramUrl: z.string().url().optional(),
       instagramReelUrl: z.string().url().optional(),

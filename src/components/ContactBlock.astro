@@ -10,3 +10,26 @@ const { bookingEmail } = Astro.props;
   <p class="contact-label">Booking & collaborations</p>
   <a href={`mailto:${bookingEmail}`} class="contact-link">{bookingEmail}</a>
 </div>
+
+<style>
+  .contact-block {
+    margin-bottom: 0.95rem;
+    border: 1px solid rgba(181, 150, 90, 0.25);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 0.7rem 0.85rem;
+    border-radius: 4px;
+  }
+
+  .contact-label {
+    color: var(--muted);
+    margin: 0 0 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.82rem;
+  }
+
+  .contact-link {
+    font-size: 1.06rem;
+    color: #e0cd9e;
+  }
+</style>

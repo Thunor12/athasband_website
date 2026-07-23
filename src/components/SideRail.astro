@@ -1,0 +1,60 @@
+---
+interface Props {
+  side: "left" | "right";
+}
+
+const { side } = Astro.props;
+---
+
+<div class:list={["side-rail", `side-rail-${side}`]} aria-hidden="true">
+  <span>ᚪ ᚦ ᚪ ᚴ</span>
+</div>
+
+<style>
+  .side-rail {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 6vw, 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0.18;
+    z-index: 0;
+  }
+
+  .side-rail::before {
+    content: "";
+    position: absolute;
+    top: 8vh;
+    bottom: 8vh;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(181, 150, 90, 0) 0%,
+      rgba(181, 150, 90, 0.34) 15%,
+      rgba(181, 150, 90, 0.16) 50%,
+      rgba(181, 150, 90, 0.34) 85%,
+      rgba(181, 150, 90, 0) 100%
+    );
+  }
+
+  .side-rail span {
+    font-family: "Ringbearer", "Times New Roman", serif;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 0.12em;
+    font-size: clamp(0.58rem, 1.8vw, 0.88rem);
+    color: rgba(205, 179, 114, 0.72);
+    text-shadow: 0 0 8px rgba(181, 150, 90, 0.18);
+  }
+
+  .side-rail-left {
+    left: max(0.2rem, env(safe-area-inset-left));
+  }
+
+  .side-rail-right {
+    right: max(0.2rem, env(safe-area-inset-right));
+  }
+</style>

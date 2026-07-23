@@ -1,0 +1,23 @@
+/* Vertical stacked list — updates.astro, releases.astro */
+
+.stack-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.stack-item {
+  border: 1px solid var(--line);
+  padding: 1rem;
+}
+
+.stack-item > img {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin: 0.9rem auto;
+  border: 1px solid rgba(181, 150, 90, 0.28);
+}
