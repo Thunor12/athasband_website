@@ -58,8 +58,15 @@ const merch = defineCollection({
       price: z.string(),
       status: z.enum(["available", "coming-soon", "sold-out"]).default("coming-soon"),
       buyUrl: z.string().url().optional(),
+      /** Flat product photo, or the print design when `mockup` is set. */
       image: image().optional(),
       imageAlt: z.string().optional(),
+      /** Project `image` onto a blank product mockup. */
+      mockup: z.enum(["tee", "digipack"]).optional(),
+      /** Override the default blank tee / digipack photo. */
+      mockupTemplate: image().optional(),
+      /** Print size on the chest (tees only, 0.4–1). Default 0.72. */
+      printScale: z.number().min(0.4).max(1).optional(),
       order: z.number().optional(),
     }),
 });

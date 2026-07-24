@@ -1,0 +1,107 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import blankDigipack from "../assets/merch/templates/blank-digipack.png";
+import printGeom from "../assets/merch/templates/blank-digipack.geom.json";
+
+interface Props {
+  artwork: ImageMetadata;
+  alt: string;
+  /** Optional blank digipack photo; defaults to the generated template. */
+  template?: ImageMetadata;
+  priority?: boolean;
+}
+
+const { artwork, alt, template = blankDigipack, priority = false } = Astro.props;
+
+const printStyle = [
+  `--print-left: ${printGeom.print.left}%`,
+  `--print-top: ${printGeom.print.top}%`,
+  `--print-width: ${printGeom.print.width}%`,
+  `--print-height: ${printGeom.print.height}%`,
+].join("; ");
+---
+
+<figure class="digipack-mockup" style={printStyle}>
+  <Image
+    src={template}
+    alt=""
+    class="digipack-template"
+    widths={[480, 720, 960]}
+    sizes="(max-width: 900px) 42vw, 280px"
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : "auto"}
+    decoding="async"
+  />
+
+  <div class="digipack-print">
+    <Image
+      src={artwork}
+      alt={alt}
+      widths={[320, 480, 640]}
+      sizes="220px"
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+    <span class="digipack-sheen" aria-hidden="true"></span>
+  </div>
+</figure>
+
+<style>
+  .digipack-mockup {
+    position: relative;
+    margin: 0 auto 0.85rem;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    max-width: 280px;
+    overflow: hidden;
+  }
+
+  .digipack-template {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .digipack-print {
+    position: absolute;
+    left: var(--print-left);
+    top: var(--print-top);
+    width: var(--print-width);
+    height: var(--print-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+    background: #0e0e10;
+  }
+
+  .digipack-print :global(img) {
+    display: block;
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    /* Gold/light print on dark cardboard */
+    mix-blend-mode: screen;
+    opacity: 0.94;
+    filter: contrast(1.06) saturate(0.95);
+  }
+
+  .digipack-sheen {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        125deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(255, 255, 255, 0) 32%,
+        rgba(255, 255, 255, 0) 68%,
+        rgba(0, 0, 0, 0.18) 100%
+      );
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
+</style>

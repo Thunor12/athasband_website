@@ -2,7 +2,7 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ReleaseArtwork from "../components/ReleaseArtwork.astro";
-import defaultReleaseArtwork from "../assets/releases/unreleased_cd.jpg";
+import fallbackArtwork from "../assets/brand/Athas_Logo_transparent.png";
 
 const releases = await getCollection("releases");
 const renderedReleases = await Promise.all(
@@ -25,7 +25,7 @@ const renderedReleases = await Promise.all(
         <li class="stack-item">
           <h2>{release.data.title}</h2>
           <ReleaseArtwork
-            src={release.data.artworkImage ?? defaultReleaseArtwork}
+            src={release.data.artworkImage ?? fallbackArtwork}
             alt={release.data.artworkAlt ?? `${release.data.title} artwork preview`}
             title={release.data.title}
             href={release.data.bandcampUrl}

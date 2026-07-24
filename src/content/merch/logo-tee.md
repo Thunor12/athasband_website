@@ -4,9 +4,11 @@ kind: apparel
 price: "TBA"
 status: coming-soon
 buyUrl: "https://athasband.bandcamp.com/"
-image: "../../assets/merch/logo-tee-placeholder.png"
-imageAlt: "Placeholder mockup for Aþas logo t-shirt"
+image: "../../assets/brand/Athas_Logo_transparent.png"
+imageAlt: "Aþas logo tee"
+mockup: tee
+printScale: 0.7
 order: 1
 ---
 
-Black cotton tee with the Aþas logo. Placeholder listing until Bandcamp merch is live.
+Black cotton tee with the Aþas logo. Design is projected onto a blank tee photo when `mockup: tee` is set — swap the design file to refresh.

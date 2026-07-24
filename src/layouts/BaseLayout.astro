@@ -67,28 +67,5 @@ if (!home) {
         });
       }
     </script>
-    <script>
-      import Atropos from "atropos";
-
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-
-      if (!prefersReducedMotion) {
-        const cards = Array.from(document.querySelectorAll("[data-atropos]"));
-
-        cards.forEach((card) => {
-          if (card instanceof HTMLElement) {
-            Atropos({
-              el: card,
-              activeOffset: 28,
-              rotateTouch: false,
-              highlight: true,
-              shadow: true,
-            });
-          }
-        });
-      }
-    </script>
   </body>
 </html>

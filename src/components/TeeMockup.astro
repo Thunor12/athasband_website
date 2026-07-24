@@ -1,0 +1,134 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+import blankTee from "../assets/merch/templates/blank-black-tee.jpg";
+
+interface Props {
+  design: ImageMetadata;
+  alt: string;
+  /** Optional blank tee photo; defaults to the stock hanging black tee. */
+  template?: ImageMetadata;
+  /** Horizontal scale of the print on the chest (0–1 of print zone). */
+  printScale?: number;
+  priority?: boolean;
+}
+
+const {
+  design,
+  alt,
+  template = blankTee,
+  printScale = 0.72,
+  priority = false,
+} = Astro.props;
+
+const filterId = `tee-fabric-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<svg class="tee-filters" aria-hidden="true" width="0" height="0">
+  <defs>
+    <filter
+      id={filterId}
+      x="-10%"
+      y="-10%"
+      width="120%"
+      height="120%"
+      color-interpolation-filters="sRGB"
+    >
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.03 0.045"
+        numOctaves="2"
+        seed="7"
+        result="noise"
+      />
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="noise"
+        scale="3.5"
+        xChannelSelector="R"
+        yChannelSelector="G"
+      />
+    </filter>
+  </defs>
+</svg>
+
+<figure
+  class="tee-mockup"
+  style={`--print-scale: ${printScale}; --tee-filter: url(#${filterId})`}
+>
+  <Image
+    src={template}
+    alt=""
+    class="tee-template"
+    widths={[320, 480, 720]}
+    sizes="(max-width: 900px) 42vw, 280px"
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : "auto"}
+    decoding="async"
+  />
+
+  <div class="tee-print">
+    <Image
+      src={design}
+      alt={alt}
+      widths={[240, 360, 480]}
+      sizes="160px"
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+      decoding="async"
+    />
+  </div>
+</figure>
+
+<style>
+  .tee-filters {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .tee-mockup {
+    position: relative;
+    margin: 0 auto 0.85rem;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    max-width: 280px;
+    border: 1px solid rgba(181, 150, 90, 0.28);
+    background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  .tee-template {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  .tee-print {
+    position: absolute;
+    left: 50%;
+    top: 34%;
+    width: calc(32% * var(--print-scale, 0.72) / 0.72);
+    max-width: 38%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    filter: var(--tee-filter);
+  }
+
+  .tee-print :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    /* Gold/light ink on dark cotton */
+    mix-blend-mode: screen;
+    opacity: 0.88;
+    filter: contrast(1.08) saturate(0.92);
+  }
+</style>

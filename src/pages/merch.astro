@@ -25,7 +25,8 @@ const rendered = await Promise.all(
     <a href="https://athasband.bandcamp.com/" target="_blank" rel="noreferrer"
       >athasband.bandcamp.com</a
     >
-    when items are listed. Placeholder art until final product photos land.
+    when items are listed. Product mockups:
+    <code>tee</code> and <code>digipack</code> project the design onto blank templates.
   </p>
 
   <div class="merch-grid">
@@ -39,7 +40,10 @@ const rendered = await Promise.all(
           buyUrl={item.data.buyUrl}
           image={item.data.image}
           imageAlt={item.data.imageAlt}
-          priority={index === 0}
+          mockup={item.data.mockup}
+          mockupTemplate={item.data.mockupTemplate}
+          printScale={item.data.printScale}
+          priority={index < 3}
         >
           <item.Content />
         </MerchItem>

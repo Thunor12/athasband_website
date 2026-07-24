@@ -18,32 +18,32 @@ const hasLink = Boolean(href);
   {
     hasLink ? (
       <a
-        class="release-artwork-link is-clickable"
+        class="atropos cd-atropos"
+        data-atropos
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Open ${title ?? "this release"} page`}
+        aria-label={`Open ${title ?? "this release"} on Bandcamp`}
       >
-        <div class="atropos release-artwork-atropos" data-atropos>
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="release-artwork-mockup">
-                  <span class="release-cd-shadow" aria-hidden="true" data-atropos-offset="-8"></span>
-                  <div class="release-cd-surface" data-atropos-offset="2">
-                    <Image
-                      src={src}
-                      alt={alt}
-                      widths={[420, 640, 960]}
-                      sizes="(max-width: 900px) 84vw, 360px"
-                      loading={priority ? "eager" : "lazy"}
-                      fetchpriority={priority ? "high" : "auto"}
-                      decoding="async"
-                    />
-                    <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
-                    <span class="release-cd-rings" aria-hidden="true" data-atropos-offset="3"></span>
-                    <span class="release-cd-hole" aria-hidden="true" data-atropos-offset="9"></span>
-                  </div>
+        <div class="atropos-scale">
+          <div class="atropos-rotate">
+            <div class="atropos-inner">
+              <div class="cd-mockup">
+                <span class="cd-shadow" aria-hidden="true" data-atropos-offset="-6"></span>
+                <div class="cd-disc" data-atropos-offset="3">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    class="cd-art"
+                    widths={[420, 640, 960]}
+                    sizes="(max-width: 900px) 84vw, 360px"
+                    loading={priority ? "eager" : "lazy"}
+                    fetchpriority={priority ? "high" : "auto"}
+                    decoding="async"
+                  />
+                  <span class="cd-iridescence" aria-hidden="true"></span>
+                  <span class="cd-rings" aria-hidden="true"></span>
+                  <span class="cd-hole" aria-hidden="true"></span>
                 </div>
               </div>
             </div>
@@ -51,27 +51,26 @@ const hasLink = Boolean(href);
         </div>
       </a>
     ) : (
-      <div class="release-artwork-link">
-        <div class="atropos release-artwork-atropos" data-atropos>
-          <div class="atropos-scale">
-            <div class="atropos-rotate">
-              <div class="atropos-inner">
-                <div class="release-artwork-mockup">
-                  <span class="release-cd-shadow" aria-hidden="true" data-atropos-offset="-8"></span>
-                  <div class="release-cd-surface" data-atropos-offset="2">
-                    <Image
-                      src={src}
-                      alt={alt}
-                      widths={[420, 640, 960]}
-                      sizes="(max-width: 900px) 84vw, 360px"
-                      loading={priority ? "eager" : "lazy"}
-                      fetchpriority={priority ? "high" : "auto"}
-                      decoding="async"
-                    />
-                    <span class="release-cd-iridescence" aria-hidden="true" data-atropos-offset="6"></span>
-                    <span class="release-cd-rings" aria-hidden="true" data-atropos-offset="3"></span>
-                    <span class="release-cd-hole" aria-hidden="true" data-atropos-offset="9"></span>
-                  </div>
+      <div class="atropos cd-atropos" data-atropos>
+        <div class="atropos-scale">
+          <div class="atropos-rotate">
+            <div class="atropos-inner">
+              <div class="cd-mockup">
+                <span class="cd-shadow" aria-hidden="true" data-atropos-offset="-6"></span>
+                <div class="cd-disc" data-atropos-offset="3">
+                  <Image
+                    src={src}
+                    alt={alt}
+                    class="cd-art"
+                    widths={[420, 640, 960]}
+                    sizes="(max-width: 900px) 84vw, 360px"
+                    loading={priority ? "eager" : "lazy"}
+                    fetchpriority={priority ? "high" : "auto"}
+                    decoding="async"
+                  />
+                  <span class="cd-iridescence" aria-hidden="true"></span>
+                  <span class="cd-rings" aria-hidden="true"></span>
+                  <span class="cd-hole" aria-hidden="true"></span>
                 </div>
               </div>
             </div>
@@ -80,11 +79,42 @@ const hasLink = Boolean(href);
       </div>
     )
   }
+
   <p class="release-artwork-caption">
     {title ? `${title} artwork` : "Release artwork preview"}
     {hasLink && " · Open on Bandcamp"}
   </p>
 </div>
+
+{/* Classic script tags — avoid Astro module bundling / reduced-motion early-outs */}
+<script is:inline src="/vendor/atropos.min.js"></script>
+<script is:inline>
+  (function () {
+    function mount() {
+      if (typeof Atropos !== "function") return;
+      document.querySelectorAll("[data-atropos]").forEach(function (el) {
+        if (el.__atropos__ && typeof el.__atropos__.destroy === "function") {
+          el.__atropos__.destroy();
+        }
+        Atropos({
+          el: el,
+          activeOffset: 28,
+          shadowScale: 1.02,
+          highlight: false,
+          shadow: true,
+          rotateTouch: "scroll-y",
+        });
+        el.setAttribute("data-atropos-ready", "1");
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", mount);
+    } else {
+      mount();
+    }
+  })();
+</script>
 
 <style>
   .release-artwork {
@@ -92,93 +122,153 @@ const hasLink = Boolean(href);
     text-align: center;
   }
 
-  .release-artwork-link {
+  .cd-atropos {
     display: block;
-    width: fit-content;
+    width: min(84vw, 360px);
+    height: min(84vw, 360px);
     margin: 0 auto;
     text-decoration: none;
     color: inherit;
+    border-radius: 50%;
+    clip-path: circle(50% at 50% 50%);
   }
 
-  .release-artwork-atropos {
-    width: min(84vw, 360px);
-    margin: 0 auto;
+  .cd-atropos:focus-visible {
+    outline: 1px solid rgba(220, 196, 123, 0.72);
+    outline-offset: 4px;
   }
 
-  .release-artwork-atropos :global(.atropos-inner) {
+  .cd-atropos :global(.atropos-scale),
+  .cd-atropos :global(.atropos-rotate),
+  .cd-atropos :global(.atropos-inner),
+  .cd-mockup,
+  .cd-disc {
+    border-radius: 50%;
+  }
+
+  .cd-atropos :global(.atropos-inner) {
     background: transparent;
-    overflow: visible;
+    overflow: hidden;
   }
 
-  .release-artwork-mockup {
+  /* Override Atropos default blur(30px) — soft disc shadow only */
+  .cd-atropos :global(.atropos-shadow) {
+    border-radius: 50%;
+    filter: blur(8px) !important;
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .cd-atropos :global(.atropos-active .atropos-shadow) {
+    opacity: 0.35 !important;
+  }
+
+  .cd-mockup {
     position: relative;
     width: 100%;
-    aspect-ratio: 1;
-    margin: 0 auto;
+    height: 100%;
+    overflow: hidden;
+    clip-path: circle(50% at 50% 50%);
   }
 
-  .release-cd-shadow {
-    position: absolute;
-    inset: 10%;
-    border-radius: 999px;
-    background: radial-gradient(
-      circle,
-      rgba(0, 0, 0, 0.42) 0%,
-      rgba(0, 0, 0, 0) 68%
-    );
-    filter: blur(8px);
+  /* Drop the extra soft plate — Atropos shadow is enough */
+  .cd-shadow {
+    display: none;
   }
 
-  .release-cd-surface {
+  .cd-disc {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
     overflow: hidden;
-    border: 1px solid rgba(198, 195, 181, 0.34);
-    box-shadow:
-      0 12px 28px rgba(0, 0, 0, 0.42),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(198, 195, 181, 0.4);
+    background:
+      radial-gradient(circle at 50% 50%, #1a1a1e 0%, #0e0e10 70%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    clip-path: circle(50% at 50% 50%);
   }
 
-  .release-cd-surface :global(img) {
+  .cd-art {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    filter: saturate(0.92) contrast(1.04) brightness(0.9);
+    max-width: none;
+    object-fit: contain;
+    object-position: center;
+    padding: 16%;
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 1;
   }
 
-  .release-cd-iridescence {
+  .cd-iridescence,
+  .cd-rings,
+  .cd-hole {
     position: absolute;
     inset: 0;
-    background:
-      conic-gradient(from 25deg, rgba(121, 128, 204, 0.26), rgba(153, 218, 231, 0.2), rgba(236, 179, 220, 0.24), rgba(121, 128, 204, 0.26)),
-      radial-gradient(circle at 28% 26%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 58%);
-    mix-blend-mode: screen;
     pointer-events: none;
   }
 
-  .release-cd-rings {
-    position: absolute;
-    inset: 0;
+  /* Quiet outer-rim texture — fade out toward the label */
+  .cd-rings {
+    z-index: 1;
+    opacity: 0.85;
     background:
-      radial-gradient(circle, rgba(255, 255, 255, 0) 0 13%, rgba(196, 186, 164, 0.85) 13% 16%, rgba(57, 58, 69, 0.76) 16% 18%, rgba(197, 186, 164, 0.44) 18% 25%, rgba(255, 255, 255, 0) 25% 100%),
-      repeating-radial-gradient(circle, rgba(255, 255, 255, 0) 0 8.6%, rgba(220, 211, 186, 0.08) 8.6% 9.2%);
-    pointer-events: none;
+      radial-gradient(
+        circle,
+        transparent 0 8.5%,
+        rgba(210, 198, 168, 0.4) 5.5% 6.6%,
+        rgba(28, 29, 34, 0.45) 6.6% 7.6%,
+        rgba(200, 188, 158, 0.18) 7.6% 9.5%,
+        transparent 10.5% 100%
+      ),
+      repeating-radial-gradient(
+        circle at center,
+        transparent 1px,
+        transparent 6px,
+        rgba(210, 200, 175, 0.22) 6px,
+        rgba(210, 200, 175, 0.22) 6.5px,
+        rgba(0, 0, 0, 0.12) 6.5px,
+        rgba(0, 0, 0, 0.12) 9px
+      );
+    -webkit-mask-image: radial-gradient(
+      circle,
+      transparent 0 5%,
+      #000 5.2% 9.8%,
+      transparent 11% 58%,
+      rgba(0, 0, 0, 0.2) 68%,
+      #000 82% 96%,
+      transparent 99%
+    );
+    mask-image: radial-gradient(
+      circle,
+      transparent 0 8%,
+      #000 5.2% 9.8%,
+      transparent 11% 58%,
+      rgba(0, 0, 0, 0.2) 68%,
+      #000 82% 96%,
+      transparent 99%
+    );
   }
 
-  .release-cd-hole {
-    position: absolute;
-    inset: 40%;
+  .cd-iridescence {
+    z-index: 3;
+    opacity: 0.12;
+    background: radial-gradient(
+      circle at 28% 22%,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0) 42%
+    );
+    mix-blend-mode: soft-light;
+  }
+
+  .cd-hole {
+    inset: 47.2%;
+    z-index: 4;
     border-radius: 50%;
     border: 1px solid rgba(38, 39, 46, 0.5);
-    background: rgba(245, 240, 228, 0.82);
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.25);
-    pointer-events: none;
-  }
-
-  .release-artwork-link.is-clickable:focus-visible {
-    outline: 1px solid rgba(220, 196, 123, 0.72);
-    outline-offset: 3px;
+    background: #efe9da;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.25);
   }
 
   .release-artwork-caption {
@@ -187,11 +277,5 @@ const hasLink = Boolean(href);
     color: #bdae89;
     text-align: center;
     letter-spacing: 0.03em;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .release-artwork-atropos :global(*) {
-      transition: none !important;
-    }
   }
 </style>

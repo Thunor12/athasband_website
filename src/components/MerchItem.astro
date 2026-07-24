@@ -1,7 +1,9 @@
 ---
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
+import DigipackMockup from "./DigipackMockup.astro";
 import Panel from "./Panel.astro";
+import TeeMockup from "./TeeMockup.astro";
 
 interface Props {
   title: string;
@@ -11,6 +13,9 @@ interface Props {
   buyUrl?: string;
   image?: ImageMetadata;
   imageAlt?: string;
+  mockup?: "tee" | "digipack";
+  mockupTemplate?: ImageMetadata;
+  printScale?: number;
   priority?: boolean;
 }
 
@@ -22,6 +27,9 @@ const {
   buyUrl,
   image,
   imageAlt,
+  mockup,
+  mockupTemplate,
+  printScale,
   priority = false,
 } = Astro.props;
 
@@ -33,24 +41,40 @@ const statusLabel =
       : "Coming soon";
 
 const canBuy = status === "available" && Boolean(buyUrl);
+const alt = imageAlt ?? `${title} product`;
 ---
 
 <article class="merch-item">
   <Panel>
     {
-      image && (
+      image && mockup === "tee" ? (
+        <TeeMockup
+          design={image}
+          alt={alt}
+          template={mockupTemplate}
+          printScale={printScale}
+          priority={priority}
+        />
+      ) : image && mockup === "digipack" ? (
+        <DigipackMockup
+          artwork={image}
+          alt={alt}
+          template={mockupTemplate}
+          priority={priority}
+        />
+      ) : image ? (
         <figure class="merch-figure">
           <Image
             src={image}
-            alt={imageAlt ?? `${title} product`}
+            alt={alt}
             widths={[320, 480, 640]}
             sizes="(max-width: 900px) 42vw, 280px"
-            loading="eager"
+            loading={priority ? "eager" : "lazy"}
             fetchpriority={priority ? "high" : "auto"}
             decoding="async"
           />
         </figure>
-      )
+      ) : null
     }
     <p class="merch-kind">{kind}</p>
     <h2>{title}</h2>
