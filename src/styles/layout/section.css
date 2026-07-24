@@ -23,13 +23,14 @@
 }
 
 #listen.section,
-#presskit.section {
+#record.section,
+#chronicle.section {
   background: linear-gradient(180deg, #b5965a1a, #00000057);
   border-top: 1px solid rgba(181, 150, 90, 0.35);
 }
 
 #vision.section,
-#work.section {
+#contact.section {
   background: #0000003a;
   border-top: 1px solid rgba(181, 150, 90, 0.18);
 }

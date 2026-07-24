@@ -22,7 +22,8 @@ const renderedReleases = await Promise.all(
   <ul class="stack-list">
     {
       renderedReleases.map((release, index) => (
-        <li class="stack-item">
+        <li class="stack-item section release-card">
+          <p class="release-kicker">{release.data.format}</p>
           <h2>{release.data.title}</h2>
           <ReleaseArtwork
             src={release.data.artworkImage ?? fallbackArtwork}
@@ -31,12 +32,39 @@ const renderedReleases = await Promise.all(
             href={release.data.bandcampUrl}
             priority={index === 0}
           />
-          <p>{release.data.format}</p>
-          <p>Status: {release.data.status}</p>
-          <p>Release: {release.data.releaseDate}</p>
-          <release.Content />
+          <p class="release-meta">Status: {release.data.status}</p>
+          <p class="release-meta">Release: {release.data.releaseDate}</p>
+          <div class="release-lore">
+            <release.Content />
+          </div>
         </li>
       ))
     }
   </ul>
 </BaseLayout>
+
+<style>
+  .release-kicker {
+    margin: 0 0 0.3rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #b5965a;
+  }
+
+  .release-meta {
+    margin: 0.2rem 0;
+    color: #bbaf94;
+    font-size: 0.92rem;
+  }
+
+  .release-lore {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid rgba(181, 150, 90, 0.18);
+  }
+
+  .release-lore :global(p) {
+    margin: 0 0 0.75rem;
+  }
+</style>

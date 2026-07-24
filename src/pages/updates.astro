@@ -42,12 +42,11 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
   <ul class="stack-list">
     {
       updatesWithCovers.map((entry) => (
-        <li class="stack-item">
+        <li class="stack-item section update-card">
           <p class="update-type">
             {entry.data.instagramUrl ? "Instagram post" : "Update"}
             {entry.data.format && ` · ${entry.data.format}`}
           </p>
-          <h2>{entry.data.title}</h2>
           {
             entry.data.coverImage && (
               <ContentImage
@@ -57,8 +56,9 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
               />
             )
           }
-          <p>{entry.data.date.toISOString().slice(0, 10)}</p>
-          <p>{entry.data.summary}</p>
+          <h2>{entry.data.title}</h2>
+          <p class="update-date">{entry.data.date.toISOString().slice(0, 10)}</p>
+          <p class="update-summary">{entry.data.summary}</p>
           {
             (entry.data.instagramUrl || entry.data.instagramReelUrl) && (
               <p class="update-instagram-links">
@@ -91,7 +91,9 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
               </p>
             )
           }
-          <entry.Content />
+          <div class="update-body">
+            <entry.Content />
+          </div>
         </li>
       ))
     }
@@ -99,12 +101,27 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
 </BaseLayout>
 
 <style>
+  .update-card :global(.content-image) {
+    margin: 0.55rem 0 0.85rem;
+  }
+
   .update-type {
     margin: 0 0 0.35rem;
     font-size: 0.82rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: #b5965a;
+  }
+
+  .update-date {
+    margin: 0.25rem 0 0.45rem;
+    color: #bbaf94;
+    font-size: 0.9rem;
+  }
+
+  .update-summary {
+    margin: 0 0 0.55rem;
+    color: #cec7b5;
   }
 
   .update-instagram-links {
@@ -115,5 +132,9 @@ const updatesWithCovers = renderedUpdates.map((entry) => {
 
   .update-instagram-links a {
     color: #bdae89;
+  }
+
+  .update-body :global(p) {
+    margin: 0 0 0.65rem;
   }
 </style>

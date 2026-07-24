@@ -1,13 +1,14 @@
 ---
 import { getCollection, getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
 import AudioPlayer from "../components/AudioPlayer.astro";
-import Card from "../components/Card.astro";
 import ContactBlock from "../components/ContactBlock.astro";
 import Hero from "../components/Hero.astro";
 import Panel from "../components/Panel.astro";
 import Section from "../components/Section.astro";
 import SocialLinks from "../components/SocialLinks.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import fallbackArtwork from "../assets/brand/Athas_Logo_transparent.png";
 
 const home = await getEntry("pages", "home");
 
@@ -24,6 +25,7 @@ const latestUpdate = updates.sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 )[0];
 const latestRelease = releases[0];
+const releaseArt = latestRelease?.data.artworkImage ?? fallbackArtwork;
 ---
 
 <BaseLayout title={home.data.seoTitle} description={home.data.seoDescription}>
@@ -38,77 +40,85 @@ const latestRelease = releases[0];
 
   <Section title="Listen" sectionId="listen">
     <Panel variant="feature">
-      <p class="listen-hook">A first descent into Athas.</p>
-      <p class="listen-meta">Liegetsliht : Excerpt from upcoming release</p>
-      <AudioPlayer src="/music/Liegetsliht_demo.mp3" />
-      <p class="listen-note">Demo excerpt. Full release forthcoming.</p>
+      <div class="listen-panel">
+        <p class="listen-hook">A first descent into Athas.</p>
+        <p class="listen-meta">Liegetsliht : Excerpt from upcoming release</p>
+        <AudioPlayer src="/music/Liegetsliht_demo.mp3" />
+        <p class="listen-note">Demo excerpt. Full release forthcoming.</p>
+      </div>
     </Panel>
   </Section>
+
+  {
+    latestRelease && (
+      <Section title="The Record" sectionId="record">
+        <a class="image-teaser" href="/releases">
+          <div class="image-teaser-media record-teaser-media">
+            <Image
+              src={releaseArt}
+              alt={
+                latestRelease.data.artworkAlt ??
+                `${latestRelease.data.title} artwork`
+              }
+              class="record-teaser-art"
+              widths={[320, 480, 640]}
+              sizes="(max-width: 900px) 56vw, 220px"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="image-teaser-copy">
+            <p class="image-teaser-label">Current release</p>
+            <h3>{latestRelease.data.title}</h3>
+            <p class="image-teaser-meta">{latestRelease.data.format}</p>
+            <p class="image-teaser-body">
+              Status: {latestRelease.data.status}
+            </p>
+            <span class="image-teaser-link">View releases</span>
+          </div>
+        </a>
+      </Section>
+    )
+  }
+
+  {
+    latestUpdate && (
+      <Section title="Chronicle" sectionId="chronicle">
+        <a class="image-teaser" href="/updates">
+          {
+            latestUpdate.data.coverImage && (
+              <div class="image-teaser-media">
+                <Image
+                  src={latestUpdate.data.coverImage}
+                  alt={
+                    latestUpdate.data.coverAlt ?? latestUpdate.data.title
+                  }
+                  widths={[480, 720, 960]}
+                  sizes="(max-width: 900px) 92vw, 420px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            )
+          }
+          <div class="image-teaser-copy">
+            <p class="image-teaser-label">Latest post</p>
+            <h3>{latestUpdate.data.title}</h3>
+            <p class="image-teaser-meta">
+              {latestUpdate.data.date.toISOString().slice(0, 10)}
+            </p>
+            <p class="image-teaser-body">{latestUpdate.data.summary}</p>
+            <span class="image-teaser-link">View all updates</span>
+          </div>
+        </a>
+      </Section>
+    )
+  }
 
   <Section title="The Vision" sectionId="vision">
     <Panel>
       <div class="vision"><Content /></div>
-    </Panel>
-  </Section>
-
-  <Section title="Current Work" sectionId="work">
-    <Panel>
-      <p class="status">{home.data.status}</p>
-      <ul class="current-highlights">
-        <li>Debut album <em>Dustsceáwung</em> : instruments and vocals tracked; mixing underway.</li>
-        <li>Live lineup rehearsing : preparing for the stage.</li>
-        <li>Open to label, promoter, and booking collaborations.</li>
-      </ul>
-    </Panel>
-  </Section>
-
-  <Section title="Updates" sectionId="updates">
-    <p class="section-intro">
-      News and Instagram posts from Aþas : studio progress, lore, and announcements.
-    </p>
-    <div class="teaser-grid">
-      {
-        latestUpdate && (
-          <Card
-            label="Latest post"
-            title={latestUpdate.data.title}
-            meta={latestUpdate.data.date.toISOString().slice(0, 10)}
-            lines={[latestUpdate.data.summary]}
-            href="/updates"
-            linkText="View all updates"
-          />
-        )
-      }
-
-      {
-        latestRelease && (
-          <Card
-            label="Current release"
-            title={latestRelease.data.title}
-            meta={latestRelease.data.format}
-            lines={[
-              `Status: ${latestRelease.data.status}`,
-              `Release: ${latestRelease.data.releaseDate}`,
-            ]}
-            href="/releases"
-            linkText="View releases"
-          />
-        )
-      }
-    </div>
-  </Section>
-
-  <Section title="Press Kit" sectionId="presskit">
-    <Panel>
-      <p class="presskit-intro">
-        Includes everything needed for booking, coverage, and collaborations.
-      </p>
-      <ul class="presskit-list">
-        <li>Band biography and project concept</li>
-        <li>Audio excerpts and release information</li>
-        <li>Visual identity assets and key links</li>
-      </ul>
-      <a class="cta" href="/press-kit">Open full press kit</a>
+      <a class="vision-more" href="/press-kit">Full biography in the press kit</a>
     </Panel>
   </Section>
 
@@ -124,6 +134,10 @@ const latestRelease = releases[0];
 </BaseLayout>
 
 <style>
+  .listen-panel {
+    transition: box-shadow 280ms ease, border-color 280ms ease;
+  }
+
   .listen-hook {
     margin: 0 0 0.42rem;
     color: #e0cd9e;
@@ -144,6 +158,13 @@ const latestRelease = releases[0];
     font-size: 0.9rem;
   }
 
+  .vision {
+    max-height: 12.5rem;
+    overflow: hidden;
+    mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+
   .vision :global(p) {
     margin: 0 0 0.85rem;
     font-size: clamp(0.8rem, 0.7rem + 0.24vw, 0.94rem);
@@ -153,38 +174,134 @@ const latestRelease = releases[0];
     margin-bottom: 0;
   }
 
-  .status {
-    margin: 0 0 0.75rem;
+  .vision-more {
+    display: inline-block;
+    margin-top: 0.75rem;
+    border: 1px solid rgba(181, 150, 90, 0.35);
+    border-radius: 999px;
+    padding: 0.2rem 0.62rem;
+    font-size: 0.84rem;
+    color: #e0cd9e;
   }
 
-  .current-highlights {
+  .vision-more:hover {
+    text-decoration: none;
+    background: rgba(181, 150, 90, 0.14);
+  }
+
+  .image-teaser {
+    display: grid;
+    gap: 1rem;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(181, 150, 90, 0.28);
+    border-radius: 6px;
+    padding: 0.85rem;
+    background: linear-gradient(
+      160deg,
+      rgba(181, 150, 90, 0.1) 0%,
+      rgba(0, 0, 0, 0.25) 55%
+    );
+    transition:
+      border-color 220ms ease,
+      background 220ms ease,
+      transform 280ms ease;
+  }
+
+  .image-teaser:hover {
+    text-decoration: none;
+    border-color: rgba(220, 196, 123, 0.45);
+    background: linear-gradient(
+      160deg,
+      rgba(181, 150, 90, 0.16) 0%,
+      rgba(0, 0, 0, 0.3) 55%
+    );
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .image-teaser {
+      transition: border-color 220ms ease, background 220ms ease;
+    }
+
+    .image-teaser:hover {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .image-teaser {
+      grid-template-columns: minmax(140px, 220px) 1fr;
+      gap: 1.25rem;
+      padding: 1rem 1.15rem;
+    }
+  }
+
+  .image-teaser-media {
     margin: 0;
-    padding-left: 1.1rem;
-    display: grid;
-    gap: 0.4rem;
-    color: #cec7b5;
+    overflow: hidden;
+    border: 1px solid rgba(181, 150, 90, 0.22);
+    background: rgba(0, 0, 0, 0.4);
   }
 
-  .teaser-grid {
-    display: grid;
-    gap: 0.75rem;
+  .image-teaser-media :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
   }
 
-  .presskit-intro {
-    margin: 0 0 0.5rem;
+  .record-teaser-media {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    clip-path: circle(50% at 50% 50%);
+    background:
+      radial-gradient(circle at 50% 50%, #1a1a1e 0%, #0e0e10 70%);
+  }
+
+  .record-teaser-media :global(img),
+  .record-teaser-art {
+    width: 72%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    padding: 0;
+  }
+
+  .image-teaser-label {
+    margin: 0 0 0.25rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #c8b58c;
+  }
+
+  .image-teaser-copy h3 {
+    margin: 0 0 0.35rem;
     color: #dcc794;
+    font-size: 1.14rem;
     font-family: "Ringbearer", "Times New Roman", serif;
-    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
   }
 
-  .presskit-list {
+  .image-teaser-meta {
+    margin: 0 0 0.45rem;
+    color: #bbaf94;
+    font-size: 0.92rem;
+  }
+
+  .image-teaser-body {
     margin: 0 0 0.7rem;
-    padding-left: 1.1rem;
-    display: grid;
-    gap: 0.36rem;
+    color: #cec7b5;
+    font-size: 0.95rem;
   }
 
-  .cta {
+  .image-teaser-link {
     display: inline-block;
     border: 1px solid rgba(181, 150, 90, 0.35);
     border-radius: 999px;
@@ -193,8 +310,7 @@ const latestRelease = releases[0];
     color: #e0cd9e;
   }
 
-  .cta:hover {
-    text-decoration: none;
+  .image-teaser:hover .image-teaser-link {
     background: rgba(181, 150, 90, 0.14);
   }
 

@@ -174,8 +174,21 @@ const {
     object-position: center;
     transform: scale(1.1) translate(0.5%, -5%);
     transform-origin: center;
-    opacity: 0.04;
+    opacity: 0.1;
     filter: sepia(0.6) contrast(0.80) saturate(0.85);
+  }
+
+  :global(.js) .hero-bindrune {
+    animation: bindrune-drift 28s ease-in-out infinite alternate;
+  }
+
+  @keyframes bindrune-drift {
+    from {
+      transform: scale(1.1) translate(0.5%, -5%);
+    }
+    to {
+      transform: scale(1.14) translate(-0.8%, -3.5%);
+    }
   }
 
   .hero > *:not(.hero-art) {
@@ -267,7 +280,7 @@ const {
 
   @media (max-width: 520px) {
     .hero-bindrune {
-      opacity: 0.07;
+      opacity: 0.12;
     }
   }
 
@@ -287,6 +300,10 @@ const {
       animation: none;
       opacity: 1;
       transform: none;
+    }
+
+    :global(.js) .hero-bindrune {
+      animation: none;
     }
   }
 </style>

@@ -28,5 +28,17 @@ const { variant = "default", class: className } = Astro.props;
       rgba(0, 0, 0, 0.34) 100%
     );
     box-shadow: 0 0 18px rgba(181, 150, 90, 0.08);
+    transition: box-shadow 280ms ease, border-color 280ms ease;
+  }
+
+  .panel.feature:hover {
+    border-color: rgba(220, 196, 123, 0.4);
+    box-shadow: 0 0 28px rgba(181, 150, 90, 0.16);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .panel.feature {
+      transition: none;
+    }
   }
 </style>
