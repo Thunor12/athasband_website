@@ -92,12 +92,15 @@ const getSocialKey = (name: string) => name.trim().toLowerCase();
   }
 
   .topbar-brand {
-    font-family: "Ringbearer", "Times New Roman", serif;
+    font-family: "Aniron", "Times New Roman", serif;
     color: #e0cd9e;
     font-size: 1rem;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.015em;
+    font-kerning: normal;
+    font-feature-settings: "kern" 1;
     flex-shrink: 0;
     text-decoration: none;
+    white-space: nowrap;
   }
 
   .topbar-brand:hover {
