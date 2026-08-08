@@ -25,8 +25,7 @@ h1,
 h2 {
   letter-spacing: 0.07em;
   text-transform: none;
-  font-kerning: normal;
-  font-feature-settings: "kern" 1;
+  font-kerning: none;
 }
 
 h1 {

@@ -95,9 +95,9 @@ const getSocialKey = (name: string) => name.trim().toLowerCase();
     font-family: "Aniron", "Times New Roman", serif;
     color: #e0cd9e;
     font-size: 1rem;
-    letter-spacing: 0.015em;
-    font-kerning: normal;
-    font-feature-settings: "kern" 1;
+    /* Even tracking; kerning off so þa is not pulled tighter than other pairs */
+    letter-spacing: 0.06em;
+    font-kerning: none;
     flex-shrink: 0;
     text-decoration: none;
     white-space: nowrap;

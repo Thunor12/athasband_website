@@ -3,8 +3,8 @@
 
 @font-face {
   font-family: "Aniron";
-  /* Cache-bust when thorn metrics/kerning change */
-  src: url("/fonts/aniron-font/Aniron-7BaP.ttf?v=8") format("truetype");
+  /* Cache-bust when thorn metrics change */
+  src: url("/fonts/aniron-font/Aniron-7BaP.ttf?v=10") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: "Aniron";
-  src: url("/fonts/aniron-font/AnironBold-mL9P.ttf?v=8") format("truetype");
+  src: url("/fonts/aniron-font/AnironBold-mL9P.ttf?v=10") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "Ringbearer";
-  src: url("/fonts/ringbearer-font/RingbearerMedium-51mgZ.ttf?v=8")
+  src: url("/fonts/ringbearer-font/RingbearerMedium-51mgZ.ttf?v=10")
     format("truetype");
   font-weight: 500;
   font-style: normal;
