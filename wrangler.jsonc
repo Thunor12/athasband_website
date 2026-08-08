@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "athas-website",
+  // Set this to today's date
+  "compatibility_date": "2026-08-08",
+  // Static Astro build output — no Worker script needed.
+  "assets": {
+    "directory": "./dist"
+  }
+  // After the first deploy works on *.workers.dev, point athas.band at the Worker:
+  // 1. Remove the Tunnel DNS / public hostname for athas.band (and www if used)
+  // 2. Uncomment below and redeploy, or add the Custom Domain in the dashboard
+  // "routes": [
+  //   { "pattern": "athas.band", "custom_domain": true },
+  //   { "pattern": "www.athas.band", "custom_domain": true }
+  // ]
+}

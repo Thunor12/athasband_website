@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 echo "Installing dependencies..."
 npm install
@@ -6,7 +7,7 @@ npm install
 echo "Building..."
 npm run build
 
-echo "Deploying..."
-rsync -avz --delete dist/ lucas@192.168.1.124:/var/www/athas/
+echo "Deploying to Cloudflare Workers..."
+npx wrangler deploy
 
 echo "Done!"
