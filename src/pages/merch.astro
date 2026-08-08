@@ -30,7 +30,7 @@ const rendered = await Promise.all(
 
   <div class="merch-grid">
     {
-      rendered.map((item, index) => (
+      rendered.map((item) => (
         <MerchItem
           title={item.data.title}
           kind={item.data.kind}
@@ -42,7 +42,7 @@ const rendered = await Promise.all(
           mockup={item.data.mockup}
           mockupTemplate={item.data.mockupTemplate}
           printScale={item.data.printScale}
-          priority={index < 3}
+          priority={true}
         >
           <item.Content />
         </MerchItem>
