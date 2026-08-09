@@ -7,6 +7,5 @@ export default defineConfig({
   // /merch is commonly blocked by ad blockers; keep a redirect for old links.
   redirects: {
     "/merch": "/shop",
-    "/merch/": "/shop",
   },
 });

@@ -2,13 +2,15 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "athas-website",
   "compatibility_date": "2026-08-08",
-  // Keep workers.dev as a backup URL.
+  // Production backup URL (updated only by `wrangler deploy` from main).
   "workers_dev": true,
+  // Enables version/branch preview URLs (used for non-main CI builds).
+  "preview_urls": true,
   // Static Astro build output — no Worker script needed.
   "assets": {
     "directory": "./dist"
   },
-  // Served under the existing thunor97.net Cloudflare zone.
+  // Official site — only updated when CI runs `wrangler deploy` on main.
   "routes": [
     { "pattern": "athasband.thunor97.net", "custom_domain": true }
   ]
