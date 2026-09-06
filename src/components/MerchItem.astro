@@ -1,6 +1,7 @@
 ---
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
+import { getPaymentApiUrl } from "../lib/paymentApiUrl";
 import DigipackMockup from "./DigipackMockup.astro";
 import Panel from "./Panel.astro";
 import TeeMockup from "./TeeMockup.astro";
@@ -11,6 +12,7 @@ interface Props {
   price: string;
   status: "available" | "coming-soon" | "sold-out";
   buyUrl?: string;
+  variantId?: number;
   image?: ImageMetadata;
   imageAlt?: string;
   mockup?: "tee" | "digipack";
@@ -25,6 +27,7 @@ const {
   price,
   status,
   buyUrl,
+  variantId,
   image,
   imageAlt,
   mockup,
@@ -40,7 +43,11 @@ const statusLabel =
       ? "Sold out"
       : "Coming soon";
 
-const canBuy = status === "available" && Boolean(buyUrl);
+const paymentApiConfigured = Boolean(getPaymentApiUrl());
+const canCheckout =
+  status === "available" && Boolean(variantId) && paymentApiConfigured;
+const canBuyBandcamp = status === "available" && Boolean(buyUrl) && !canCheckout;
+const isComingSoon = status === "coming-soon";
 const alt = imageAlt ?? `${title} product`;
 ---
 
@@ -86,10 +93,16 @@ const alt = imageAlt ?? `${title} product`;
       <slot />
     </div>
     {
-      canBuy ? (
+      canCheckout ? (
+        <a class="merch-cta" href={`/checkout?variantId=${variantId}`}>
+          Buy with PayPal
+        </a>
+      ) : canBuyBandcamp ? (
         <a class="merch-cta" href={buyUrl} target="_blank" rel="noreferrer">
           Buy on Bandcamp
         </a>
+      ) : isComingSoon ? (
+        <span class="merch-cta is-muted is-disabled">Coming soon</span>
       ) : buyUrl ? (
         <a class="merch-cta is-muted" href={buyUrl} target="_blank" rel="noreferrer">
           View shop
