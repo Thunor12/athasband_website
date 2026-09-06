@@ -58,6 +58,8 @@ const merch = defineCollection({
       price: z.string(),
       status: z.enum(["available", "coming-soon", "sold-out"]).default("coming-soon"),
       buyUrl: z.string().url().optional(),
+      /** Payment-store variant id for in-site PayPal checkout (authoritative price lives on the API). */
+      variantId: z.number().int().positive().optional(),
       /** Flat product photo, or the print design when `mockup` is set. */
       image: image().optional(),
       imageAlt: z.string().optional(),

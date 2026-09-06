@@ -1,7 +1,9 @@
 ---
-import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
 import MerchItem from "../components/MerchItem.astro";
+import Panel from "../components/Panel.astro";
+import { getPaymentApiUrl } from "../lib/paymentApiUrl";
 
 const items = await getCollection("merch");
 const sorted = items.sort(
@@ -13,49 +15,907 @@ const rendered = await Promise.all(
     return { ...entry, Content };
   }),
 );
+
+const paymentApiUrl = getPaymentApiUrl();
+const paymentApiConfigured = Boolean(paymentApiUrl);
+
+// Keep in sync with band_payment_store DONATION_* defaults (EUR cents).
+const donationMinCents = 100;
+const donationMaxCents = 500_000;
+const donationMinEuros = (donationMinCents / 100).toFixed(0);
+const donationMaxEuros = (donationMaxCents / 100).toFixed(0);
+const giftTierPatchCents = 1_000;
+const giftTierCdCents = 2_500;
+const giftTierCdTshirtCents = 5_000;
 ---
 
 <BaseLayout
   title="Aþas | Shop"
-  description="Official Aþas shop and Bandcamp store — apparel, accessories, and releases."
+  description="Support the path of Aþas — contributions toward the debut, and merch yet to come."
 >
   <h1>Shop</h1>
-  <p class="page-intro">
-    Official catalog — purchases through
-    <a href="https://athasband.bandcamp.com/" target="_blank" rel="noreferrer"
-      >athasband.bandcamp.com</a
-    >
-    when items are listed.
-  </p>
 
-  <div class="merch-grid">
-    {
-      rendered.map((item) => (
-        <MerchItem
-          title={item.data.title}
-          kind={item.data.kind}
-          price={item.data.price}
-          status={item.data.status}
-          buyUrl={item.data.buyUrl}
-          image={item.data.image}
-          imageAlt={item.data.imageAlt}
-          mockup={item.data.mockup}
-          mockupTemplate={item.data.mockupTemplate}
-          printScale={item.data.printScale}
-          priority={true}
-        >
-          <item.Content />
-        </MerchItem>
-      ))
-    }
-  </div>
+  <section class="support-section" aria-labelledby="support-heading">
+    <Panel variant="feature">
+      <p class="support-eyebrow">Support</p>
+      <h2 id="support-heading" class="support-title">Forge the path</h2>
+      <p class="support-lead">
+        Wesaþ. The work of Aþas is still being hammered into shape — ruin into
+        form, oath into debut. If you would stand with the forge, a contribution
+        strengthens the road ahead.
+      </p>
+      <p class="support-aside">
+        Choose an amount in euros. No account — email and address only. You
+        finish through PayPal.
+      </p>
+
+      <ul class="gift-tiers" aria-label="Gift tiers">
+        <li>
+          <span class="gift-amount">€{(giftTierPatchCents / 100).toFixed(0)}+</span>
+          — a patch when they are available
+        </li>
+        <li>
+          <span class="gift-amount">€{(giftTierCdCents / 100).toFixed(0)}+</span>
+          — a CD when they are available
+        </li>
+        <li>
+          <span class="gift-amount"
+            >€{(giftTierCdTshirtCents / 100).toFixed(0)}+</span
+          >
+          — a CD and a T-shirt when they are available
+        </li>
+      </ul>
+
+      {
+        paymentApiConfigured ? (
+          <form id="donation-form" class="donation-form">
+            <label class="field">
+              <span>Email</span>
+              <input
+                type="email"
+                name="email"
+                required
+                autocomplete="email"
+                placeholder="you@example.com"
+              />
+            </label>
+            <label class="field">
+              <span>Amount (EUR)</span>
+              <input
+                type="number"
+                name="amount"
+                required
+                min={donationMinEuros}
+                max={donationMaxEuros}
+                step="1"
+                value="10"
+                inputmode="decimal"
+              />
+            </label>
+            <p class="donation-bounds">
+              Between €{donationMinEuros} and €{donationMaxEuros}.
+            </p>
+
+            <fieldset class="address-block">
+              <legend>Billing address</legend>
+              <label class="field">
+                <span>Name</span>
+                <input
+                  type="text"
+                  name="billing_name"
+                  required
+                  autocomplete="name"
+                  maxlength="120"
+                />
+              </label>
+              <label class="field">
+                <span>Address line 1</span>
+                <div class="suggest-wrap">
+                  <input
+                    type="text"
+                    name="billing_line1"
+                    id="billing-line1"
+                    required
+                    autocomplete="address-line1"
+                    maxlength="200"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="billing-line1-list"
+                  />
+                  <ul
+                    id="billing-line1-list"
+                    class="suggest-list"
+                    role="listbox"
+                    hidden
+                  >
+                  </ul>
+                </div>
+              </label>
+              <label class="field">
+                <span>Address line 2 (optional)</span>
+                <input
+                  type="text"
+                  name="billing_line2"
+                  autocomplete="address-line2"
+                  maxlength="200"
+                />
+              </label>
+              <div class="field-row">
+                <label class="field">
+                  <span>City</span>
+                  <input
+                    type="text"
+                    name="billing_city"
+                    required
+                    autocomplete="address-level2"
+                    maxlength="100"
+                  />
+                </label>
+                <label class="field">
+                  <span>Postal</span>
+                  <input
+                    type="text"
+                    name="billing_postal"
+                    required
+                    autocomplete="postal-code"
+                    maxlength="32"
+                  />
+                </label>
+              </div>
+              <div class="field-row">
+                <label class="field">
+                  <span>Country (ISO)</span>
+                  <input
+                    type="text"
+                    name="billing_country"
+                    required
+                    autocomplete="country"
+                    maxlength="2"
+                    minlength="2"
+                    placeholder="DE"
+                    pattern="[A-Za-z]{2}"
+                    title="Two-letter country code, e.g. DE"
+                  />
+                </label>
+                <label class="field">
+                  <span>Phone (optional)</span>
+                  <input
+                    type="tel"
+                    name="billing_phone"
+                    autocomplete="tel"
+                    maxlength="40"
+                  />
+                </label>
+              </div>
+              <p class="osm-attr">
+                Address suggestions ©{" "}
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noreferrer">OpenStreetMap</a
+                >{" "}
+                contributors
+              </p>
+            </fieldset>
+
+            <label class="same-ship">
+              <input
+                type="checkbox"
+                name="shipping_same"
+                id="shipping-same"
+                checked
+              />
+              <span>Shipping same as billing</span>
+            </label>
+
+            <fieldset
+              class="address-block"
+              id="shipping-fields"
+              hidden
+            >
+              <legend>Shipping address</legend>
+              <label class="field">
+                <span>Name</span>
+                <input
+                  type="text"
+                  name="shipping_name"
+                  autocomplete="shipping name"
+                  maxlength="120"
+                />
+              </label>
+              <label class="field">
+                <span>Address line 1</span>
+                <div class="suggest-wrap">
+                  <input
+                    type="text"
+                    name="shipping_line1"
+                    id="shipping-line1"
+                    autocomplete="shipping address-line1"
+                    maxlength="200"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-expanded="false"
+                    aria-controls="shipping-line1-list"
+                  />
+                  <ul
+                    id="shipping-line1-list"
+                    class="suggest-list"
+                    role="listbox"
+                    hidden
+                  >
+                  </ul>
+                </div>
+              </label>
+              <label class="field">
+                <span>Address line 2 (optional)</span>
+                <input
+                  type="text"
+                  name="shipping_line2"
+                  autocomplete="shipping address-line2"
+                  maxlength="200"
+                />
+              </label>
+              <div class="field-row">
+                <label class="field">
+                  <span>City</span>
+                  <input
+                    type="text"
+                    name="shipping_city"
+                    autocomplete="shipping address-level2"
+                    maxlength="100"
+                  />
+                </label>
+                <label class="field">
+                  <span>Postal</span>
+                  <input
+                    type="text"
+                    name="shipping_postal"
+                    autocomplete="shipping postal-code"
+                    maxlength="32"
+                  />
+                </label>
+              </div>
+              <div class="field-row">
+                <label class="field">
+                  <span>Country (ISO)</span>
+                  <input
+                    type="text"
+                    name="shipping_country"
+                    autocomplete="shipping country"
+                    maxlength="2"
+                    minlength="2"
+                    placeholder="DE"
+                    pattern="[A-Za-z]{2}"
+                    title="Two-letter country code, e.g. DE"
+                  />
+                </label>
+                <label class="field">
+                  <span>Phone (optional)</span>
+                  <input
+                    type="tel"
+                    name="shipping_phone"
+                    autocomplete="shipping tel"
+                    maxlength="40"
+                  />
+                </label>
+              </div>
+            </fieldset>
+
+            <p id="donation-error" class="donation-error" hidden></p>
+            <button type="submit" class="donation-submit">
+              Contribute with PayPal
+            </button>
+          </form>
+        ) : (
+          <p class="support-unconfigured">
+            Contributions open when the payment service is configured (
+            <code>PUBLIC_PAYMENT_API_URL</code>). Until then, follow the work on{" "}
+            <a
+              href="https://athasband.bandcamp.com/"
+              target="_blank"
+              rel="noreferrer">Bandcamp</a
+            >.
+          </p>
+        )
+      }
+    </Panel>
+  </section>
+
+  <section class="merch-section" aria-labelledby="merch-heading">
+    <h2 id="merch-heading" class="merch-heading">Merch — coming soon</h2>
+    <p class="page-intro merch-intro">
+      Apparel and releases are being prepared. Nothing below is for sale yet —
+      only a glimpse of what will leave the forge.
+    </p>
+
+    <div class="merch-grid">
+      {
+        rendered.map((item) => (
+          <MerchItem
+            title={item.data.title}
+            kind={item.data.kind}
+            price={item.data.price}
+            status={item.data.status}
+            buyUrl={item.data.buyUrl}
+            variantId={item.data.variantId}
+            image={item.data.image}
+            imageAlt={item.data.imageAlt}
+            mockup={item.data.mockup}
+            mockupTemplate={item.data.mockupTemplate}
+            printScale={item.data.printScale}
+          >
+            <item.Content />
+          </MerchItem>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
 
+{
+  paymentApiConfigured ? (
+    <script
+      is:inline
+      define:vars={{
+        paymentApiUrl,
+        donationMinCents,
+        donationMaxCents,
+      }}
+    >
+      const form = document.getElementById("donation-form");
+      const errorEl = document.getElementById("donation-error");
+      const sameCheckbox = document.getElementById("shipping-same");
+      const shippingFields = document.getElementById("shipping-fields");
+
+      function syncShippingVisibility() {
+        if (!sameCheckbox || !shippingFields) return;
+        const same = sameCheckbox.checked;
+        shippingFields.hidden = same;
+        shippingFields.inert = same;
+        shippingFields.querySelectorAll("input").forEach((input) => {
+          if (input.name === "shipping_line2" || input.name === "shipping_phone") {
+            input.required = false;
+            return;
+          }
+          input.required = !same;
+        });
+      }
+
+      sameCheckbox?.addEventListener("change", syncShippingVisibility);
+      syncShippingVisibility();
+
+      function wireAddressSuggest(prefix) {
+        const input = document.getElementById(`${prefix}-line1`);
+        const list = document.getElementById(`${prefix}-line1-list`);
+        if (!input || !list) return;
+
+        let timer = null;
+        let items = [];
+        let active = -1;
+        let seq = 0;
+
+        function hideList() {
+          seq++;
+          list.hidden = true;
+          list.innerHTML = "";
+          items = [];
+          active = -1;
+          input.setAttribute("aria-expanded", "false");
+        }
+
+        function applySuggestion(s) {
+          input.value = s.line1 || "";
+          const city = form.querySelector(`[name="${prefix}_city"]`);
+          const postal = form.querySelector(`[name="${prefix}_postal"]`);
+          const country = form.querySelector(`[name="${prefix}_country"]`);
+          if (city) city.value = s.city || "";
+          if (postal) postal.value = s.postal || "";
+          if (country) country.value = s.country || "";
+          hideList();
+        }
+
+        function renderList() {
+          list.innerHTML = "";
+          if (!items.length) {
+            hideList();
+            return;
+          }
+          items.forEach((s, i) => {
+            const li = document.createElement("li");
+            li.id = `${prefix}-line1-opt-${i}`;
+            li.role = "option";
+            li.setAttribute("aria-selected", i === active ? "true" : "false");
+            li.className =
+              "suggest-option" + (i === active ? " is-active" : "");
+            const primary = document.createElement("span");
+            primary.className = "suggest-option-primary";
+            primary.textContent = s.line1 || s.label || "";
+            const meta = document.createElement("span");
+            meta.className = "suggest-option-meta";
+            const label = (s.label || "").trim();
+            const line1 = (s.line1 || "").trim();
+            let metaText = "";
+            if (
+              label &&
+              line1 &&
+              label.toLowerCase().startsWith(line1.toLowerCase())
+            ) {
+              metaText = label.slice(line1.length).replace(/^,\s*/, "").trim();
+            }
+            if (!metaText) {
+              metaText = [s.postal, s.city, s.country]
+                .filter(Boolean)
+                .join(" · ");
+            }
+            meta.textContent = metaText;
+            li.appendChild(primary);
+            if (meta.textContent) li.appendChild(meta);
+            li.addEventListener("mousedown", (e) => {
+              e.preventDefault();
+              applySuggestion(s);
+            });
+            list.appendChild(li);
+          });
+          list.hidden = false;
+          input.setAttribute("aria-expanded", "true");
+          if (active >= 0) {
+            input.setAttribute(
+              "aria-activedescendant",
+              `${prefix}-line1-opt-${active}`,
+            );
+          } else {
+            input.removeAttribute("aria-activedescendant");
+          }
+        }
+
+        async function fetchSuggestions(q) {
+          const my = ++seq;
+          try {
+            const res = await fetch(
+              `${paymentApiUrl}/api/address-suggest?q=${encodeURIComponent(q)}&limit=5`,
+            );
+            if (!res.ok) {
+              if (my === seq) hideList();
+              return;
+            }
+            const data = await res.json();
+            if (my !== seq) return;
+            items = Array.isArray(data) ? data : [];
+            active = items.length ? 0 : -1;
+            renderList();
+          } catch {
+            if (my === seq) hideList();
+          }
+        }
+
+        input.addEventListener("input", () => {
+          const q = input.value.trim();
+          if (timer) clearTimeout(timer);
+          seq++;
+          if (q.length < 3) {
+            hideList();
+            return;
+          }
+          timer = setTimeout(() => fetchSuggestions(q), 350);
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if (list.hidden || !items.length) return;
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            active = (active + 1) % items.length;
+            renderList();
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            active = (active - 1 + items.length) % items.length;
+            renderList();
+          } else if (e.key === "Enter" && active >= 0) {
+            e.preventDefault();
+            applySuggestion(items[active]);
+          } else if (e.key === "Escape") {
+            hideList();
+          }
+        });
+
+        input.addEventListener("blur", () => {
+          setTimeout(hideList, 120);
+        });
+      }
+
+      wireAddressSuggest("billing");
+      wireAddressSuggest("shipping");
+
+      function readAddress(prefix, data) {
+        const line2 = String(data.get(`${prefix}_line2`) || "").trim();
+        const phone = String(data.get(`${prefix}_phone`) || "").trim();
+        return {
+          name: String(data.get(`${prefix}_name`) || "").trim(),
+          line1: String(data.get(`${prefix}_line1`) || "").trim(),
+          line2: line2 || null,
+          city: String(data.get(`${prefix}_city`) || "").trim(),
+          postal: String(data.get(`${prefix}_postal`) || "").trim(),
+          country: String(data.get(`${prefix}_country`) || "")
+            .trim()
+            .toUpperCase(),
+          phone: phone || null,
+        };
+      }
+
+      function addressOk(addr) {
+        return (
+          addr.name &&
+          addr.line1 &&
+          addr.city &&
+          addr.postal &&
+          /^[A-Z]{2}$/.test(addr.country)
+        );
+      }
+
+      function isAllowedPaypalCheckoutUrl(url) {
+        try {
+          const parsed = new URL(url);
+          if (parsed.protocol !== "https:") return false;
+          if (parsed.username || parsed.password) return false;
+          const host = parsed.hostname.toLowerCase();
+          return (
+            host === "www.paypal.com" ||
+            host === "paypal.com" ||
+            host === "www.sandbox.paypal.com" ||
+            host === "sandbox.paypal.com" ||
+            host.endsWith(".paypal.com")
+          );
+        } catch {
+          return false;
+        }
+      }
+
+      form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!errorEl) return;
+
+        errorEl.hidden = true;
+        errorEl.textContent = "";
+
+        const data = new FormData(form);
+        const email = String(data.get("email") || "").trim();
+        const euros = Number.parseFloat(String(data.get("amount") || ""));
+        const amountCents = Math.round(euros * 100);
+        const shippingSame = Boolean(sameCheckbox?.checked);
+        const billing = readAddress("billing", data);
+        const shipping = shippingSame ? null : readAddress("shipping", data);
+
+        if (!email || !Number.isFinite(euros) || euros <= 0) {
+          errorEl.textContent = "Enter a valid email and amount.";
+          errorEl.hidden = false;
+          return;
+        }
+        if (amountCents < donationMinCents || amountCents > donationMaxCents) {
+          errorEl.textContent = `Amount must be between €${(
+            donationMinCents / 100
+          ).toFixed(0)} and €${(donationMaxCents / 100).toFixed(0)}.`;
+          errorEl.hidden = false;
+          return;
+        }
+        if (!addressOk(billing) || (!shippingSame && !addressOk(shipping))) {
+          errorEl.textContent =
+            "Complete billing and shipping (country as two letters, e.g. DE).";
+          errorEl.hidden = false;
+          return;
+        }
+
+        const submit = form.querySelector('button[type="submit"]');
+        if (submit) submit.disabled = true;
+
+        const body = {
+          customer_email: email,
+          amount_cents: amountCents,
+          billing_address: billing,
+          shipping_same_as_billing: shippingSame,
+        };
+        if (!shippingSame) {
+          body.shipping_address = shipping;
+        }
+
+        try {
+          const res = await fetch(`${paymentApiUrl}/api/donations`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+
+          if (!res.ok) {
+            const detail =
+              res.status === 429
+                ? "Too many attempts. Please wait and try again."
+                : res.status === 400
+                  ? "That contribution could not be accepted. Check amount and address fields."
+                  : "Could not start contribution. Please try again.";
+            throw new Error(detail);
+          }
+
+          const payload = await res.json();
+          if (!payload.checkout_url) {
+            throw new Error("Checkout URL missing from payment service.");
+          }
+          if (!isAllowedPaypalCheckoutUrl(payload.checkout_url)) {
+            throw new Error("Payment service returned an unexpected checkout URL.");
+          }
+          window.location.href = payload.checkout_url;
+        } catch (err) {
+          errorEl.textContent =
+            err instanceof Error ? err.message : "Contribution failed.";
+          errorEl.hidden = false;
+          if (submit) submit.disabled = false;
+        }
+      });
+    </script>
+  ) : null
+}
+
 <style>
+  .support-section {
+    margin-top: 1rem;
+  }
+
+  .support-eyebrow {
+    margin: 0 0 0.35rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c8b58c;
+  }
+
+  .support-title {
+    margin: 0 0 0.55rem;
+    color: #dcc794;
+    font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+    font-family: "Ringbearer", "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  .support-lead,
+  .support-aside,
+  .support-unconfigured {
+    margin: 0 0 0.65rem;
+    color: #cec7b5;
+    font-size: 0.98rem;
+    max-width: 38rem;
+    line-height: 1.55;
+  }
+
+  .support-aside {
+    color: #bbaf94;
+    font-size: 0.9rem;
+  }
+
+  .gift-tiers {
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: 36rem;
+    color: #c8b58c;
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .gift-tiers li {
+    margin: 0.2rem 0;
+  }
+
+  .gift-amount {
+    color: #e0cd9e;
+    letter-spacing: 0.02em;
+  }
+
+  .donation-form {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 28rem;
+    margin-top: 0.85rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.35rem;
+    color: #c8b58c;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .field input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(181, 150, 90, 0.35);
+    background: rgba(0, 0, 0, 0.35);
+    color: #e0cd9e;
+    padding: 0.45rem 0.6rem;
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .field-row {
+    display: grid;
+    gap: 0.65rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .address-block {
+    margin: 0.25rem 0 0;
+    padding: 0.75rem 0 0;
+    border: none;
+    border-top: 1px solid rgba(181, 150, 90, 0.22);
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  /* `.address-block { display: grid }` otherwise overrides the hidden attribute */
+  .address-block[hidden] {
+    display: none;
+  }
+
+  .address-block legend {
+    padding: 0;
+    color: #dcc794;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .suggest-wrap {
+    position: relative;
+    width: 100%;
+  }
+
+  .suggest-wrap input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .suggest-list {
+    position: absolute;
+    z-index: 20;
+    left: 0;
+    right: 0;
+    top: calc(100% + 2px);
+    margin: 0;
+    padding: 0.2rem 0;
+    list-style: none;
+    max-height: 16rem;
+    overflow: auto;
+    border: 1px solid rgba(181, 150, 90, 0.4);
+    background: #1a1610;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  /* JS-created nodes lack Astro scope attrs — style via :global under the list */
+  .suggest-list :global(.suggest-option) {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.55rem 0.7rem;
+    color: #e0cd9e;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-transform: none;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(181, 150, 90, 0.12);
+  }
+
+  .suggest-list :global(.suggest-option:last-child) {
+    border-bottom: none;
+  }
+
+  .suggest-list :global(.suggest-option-primary) {
+    color: #e8d9b0;
+    font-weight: 500;
+    text-transform: none;
+  }
+
+  .suggest-list :global(.suggest-option-meta) {
+    color: #9a8f78;
+    font-size: 0.78rem;
+    text-transform: none;
+  }
+
+  .suggest-list :global(.suggest-option.is-active),
+  .suggest-list :global(.suggest-option:hover) {
+    background: rgba(181, 150, 90, 0.18);
+  }
+
+  .osm-attr {
+    margin: 0;
+    color: #8a8070;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+  }
+
+  .osm-attr a {
+    color: #a89878;
+  }
+
+  .same-ship {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #cec7b5;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .same-ship input {
+    accent-color: #b5965a;
+  }
+
+  .donation-bounds {
+    margin: 0;
+    color: #a8988a;
+    font-size: 0.82rem;
+  }
+
+  .donation-submit {
+    justify-self: start;
+    border: 1px solid rgba(181, 150, 90, 0.4);
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    font-size: 0.92rem;
+    color: #e0cd9e;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .donation-submit:hover:not(:disabled) {
+    background: rgba(181, 150, 90, 0.14);
+  }
+
+  .donation-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .donation-error {
+    margin: 0;
+    color: #d4a090;
+    font-size: 0.92rem;
+  }
+
+  .merch-section {
+    margin-top: 2.25rem;
+  }
+
+  .merch-heading {
+    margin: 0 0 0.4rem;
+    color: #dcc794;
+    font-size: 1.2rem;
+    font-family: "Ringbearer", "Times New Roman", serif;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .merch-intro {
+    margin-bottom: 0;
+  }
+
   .merch-grid {
     display: grid;
     gap: 1rem;
     margin-top: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  }
+
+  code {
+    color: #e0cd9e;
+  }
+
+  @media (max-width: 520px) {
+    .field-row {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
