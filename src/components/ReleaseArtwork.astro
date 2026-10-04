@@ -37,9 +37,7 @@ const hasLink = Boolean(href);
                     class="cd-art"
                     widths={[420, 640, 960]}
                     sizes="(max-width: 900px) 84vw, 360px"
-                    loading={priority ? "eager" : "lazy"}
-                    fetchpriority={priority ? "high" : "auto"}
-                    decoding="async"
+                    priority={priority}
                   />
                   <span class="cd-iridescence" aria-hidden="true"></span>
                   <span class="cd-rings" aria-hidden="true"></span>
@@ -64,9 +62,7 @@ const hasLink = Boolean(href);
                     class="cd-art"
                     widths={[420, 640, 960]}
                     sizes="(max-width: 900px) 84vw, 360px"
-                    loading={priority ? "eager" : "lazy"}
-                    fetchpriority={priority ? "high" : "auto"}
-                    decoding="async"
+                    priority={priority}
                   />
                   <span class="cd-iridescence" aria-hidden="true"></span>
                   <span class="cd-rings" aria-hidden="true"></span>

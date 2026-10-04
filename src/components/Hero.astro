@@ -35,8 +35,7 @@ const {
       class="hero-bindrune"
       width={1518}
       height={2047}
-      loading="eager"
-      decoding="async"
+      priority
       sizes="100vw"
     />
   </div>
@@ -51,9 +50,7 @@ const {
     class="hero-logo"
     widths={[480, 700, 960]}
     sizes="(max-width: 900px) 88vw, 700px"
-    loading="eager"
-    fetchpriority="high"
-    decoding="async"
+    priority
   />
   {
     bookingEmail && (

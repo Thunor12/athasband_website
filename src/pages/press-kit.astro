@@ -29,9 +29,7 @@ const releaseArt = releases[0]?.data.artworkImage ?? fallbackArtwork;
         class="press-identity-logo"
         widths={[320, 480, 640]}
         sizes="(max-width: 700px) 48vw, 220px"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
+        priority
       />
       <Image
         src={releaseArt}
@@ -39,8 +37,7 @@ const releaseArt = releases[0]?.data.artworkImage ?? fallbackArtwork;
         class="press-identity-art"
         widths={[320, 480, 640]}
         sizes="(max-width: 700px) 48vw, 220px"
-        loading="eager"
-        decoding="async"
+        priority
       />
     </div>
     <p class="press-identity-caption">

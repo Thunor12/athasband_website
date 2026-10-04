@@ -62,9 +62,7 @@ const filterId = `tee-fabric-${Math.random().toString(36).slice(2, 9)}`;
     class="tee-template"
     widths={[320, 480, 720]}
     sizes="(max-width: 900px) 42vw, 280px"
-    loading={priority ? "eager" : "lazy"}
-    fetchpriority={priority ? "high" : "auto"}
-    decoding="async"
+    priority={priority}
   />
 
   <div class="tee-print">
@@ -73,9 +71,7 @@ const filterId = `tee-fabric-${Math.random().toString(36).slice(2, 9)}`;
       alt={alt}
       widths={[240, 360, 480]}
       sizes="160px"
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding="async"
+      priority={priority}
     />
   </div>
 </figure>

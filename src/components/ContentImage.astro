@@ -37,9 +37,7 @@ const isStringSource = typeof src === "string";
         alt={alt}
         widths={widths}
         sizes={sizes}
-        loading={priority ? "eager" : "lazy"}
-        fetchpriority={priority ? "high" : "auto"}
-        decoding="async"
+        priority={priority}
       />
     )
   }

@@ -29,9 +29,7 @@ const printStyle = [
     class="digipack-template"
     widths={[480, 720, 960]}
     sizes="(max-width: 900px) 42vw, 280px"
-    loading={priority ? "eager" : "lazy"}
-    fetchpriority={priority ? "high" : "auto"}
-    decoding="async"
+    priority={priority}
   />
 
   <div class="digipack-print">
@@ -40,9 +38,7 @@ const printStyle = [
       alt={alt}
       widths={[320, 480, 640]}
       sizes="220px"
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding="async"
+      priority={priority}
     />
     <span class="digipack-sheen" aria-hidden="true"></span>
   </div>
