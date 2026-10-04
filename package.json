@@ -8,8 +8,8 @@
     "build": "astro build",
     "check": "astro check",
     "preview": "astro preview",
-    "deploy": "astro build && wrangler deploy",
-    "deploy:staging": "astro build && wrangler versions upload --preview-alias staging"
+    "deploy": "PUBLIC_PAYMENT_API_URL=https://band-payment-store.thunor97.net astro build && wrangler deploy",
+    "deploy:staging": "PUBLIC_PAYMENT_API_URL=https://band-payment-store.thunor97.net astro build && wrangler versions upload --preview-alias staging"
   },
   "keywords": [
     "astro",
