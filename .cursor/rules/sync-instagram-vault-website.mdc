@@ -12,7 +12,7 @@ When adding or updating **published** Athas social posts, update **all three** p
 | Layer | Location |
 |---|---|
 | Live feed | https://www.instagram.com/athas.band |
-| Vault archive | `/mnt/c/Users/lucas/source/extracted_yt/1/Anglos-Vault/` (`Post - *.md` + `Social media pipeline.md`) |
+| Vault archive | `/home/kucas/Documents/Obsidian/` (`Post - *.md` + `Social media pipeline.md`; former Anglos-Vault merge) |
 | Website | `src/content/updates/*.md(x)` + covers in `src/assets/updates/` |
 
 ## Checklist for every newly published post
