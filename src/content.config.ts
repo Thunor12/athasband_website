@@ -1,5 +1,6 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const pages = defineCollection({
   loader: glob({ base: "./src/content/pages", pattern: "**/*.md" }),
@@ -8,11 +9,11 @@ const pages = defineCollection({
     tagline: z.string(),
     status: z.string(),
     banner_text: z.string(),
-    bookingEmail: z.string().email(),
+    bookingEmail: z.email(),
     socials: z.array(
       z.object({
         name: z.string(),
-        url: z.string().url(),
+        url: z.url(),
       }),
     ),
     seoTitle: z.string(),
@@ -30,7 +31,7 @@ const releases = defineCollection({
       releaseDate: z.string(),
       artworkImage: image().optional(),
       artworkAlt: z.string().optional(),
-      bandcampUrl: z.string().url().optional(),
+      bandcampUrl: z.url().optional(),
     }),
 });
 
@@ -43,8 +44,8 @@ const updates = defineCollection({
       summary: z.string(),
       coverImage: image().optional(),
       coverAlt: z.string().optional(),
-      instagramUrl: z.string().url().optional(),
-      instagramReelUrl: z.string().url().optional(),
+      instagramUrl: z.url().optional(),
+      instagramReelUrl: z.url().optional(),
       format: z.enum(["post", "reel", "carousel"]).optional(),
     }),
 });
@@ -57,7 +58,7 @@ const merch = defineCollection({
       kind: z.enum(["apparel", "music", "accessory", "other"]),
       price: z.string(),
       status: z.enum(["available", "coming-soon", "sold-out"]).default("coming-soon"),
-      buyUrl: z.string().url().optional(),
+      buyUrl: z.url().optional(),
       /** Payment-store variant id for in-site PayPal checkout (authoritative price lives on the API). */
       variantId: z.number().int().positive().optional(),
       /** Flat product photo, or the print design when `mockup` is set. */
