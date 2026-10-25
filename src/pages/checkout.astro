@@ -537,6 +537,8 @@ const configured = Boolean(paymentApiUrl);
 
         const body = {
           customer_email: email,
+          // Must match an active projects.slug on the payment service (band_payment_store).
+          project: "athas",
           items: [{ variant_id: variantId, quantity }],
           billing_address: billing,
           shipping_same_as_billing: shippingSame,
