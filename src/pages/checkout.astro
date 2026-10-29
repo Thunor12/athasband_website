@@ -537,6 +537,7 @@ const configured = Boolean(paymentApiUrl);
 
         const body = {
           customer_email: email,
+          project: "athas",
           items: [{ variant_id: variantId, quantity }],
           billing_address: billing,
           shipping_same_as_billing: shippingSame,
