@@ -9,6 +9,9 @@ export const PRODUCTION_PAYMENT_API_URL =
  */
 export const PAYMENT_STORE_API_VERSION = "v0.0.1";
 
+/** Active `projects.slug` sent on create order/donation bodies. */
+export const PAYMENT_STORE_PROJECT_SLUG = "athas";
+
 /** True when `url` is a bare http(s) origin (no path/query/hash/credentials). */
 export function isValidPaymentApiUrl(url: string): boolean {
   if (!url) return false;
