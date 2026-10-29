@@ -18,7 +18,7 @@ The site is static; PayPal secrets live only in `band_payment_store`.
    - Gift tiers (defaults): €10 patch, €25 CD, €50 CD+T-shirt when available — mirrored in shop copy; stored server-side as `gift_tier`.
    - Address line 1 typeahead via `GET {PUBLIC_PAYMENT_API_URL}/api/address-suggest` (Nominatim proxy; OSM attribution on the form).
    - **Merch placeholders:** listed as coming soon (not purchasable).
-4. Optional merch checkout (when a catalog item is available): `/checkout?variantId=1` → client reads `variantId` from the query string (static build) → `POST /api/orders` (same address shape; prices in EUR cents from the catalog).
+4. Optional merch checkout (when a catalog item is available): `/checkout?variantId=1` → client reads `variantId` from the query string (static build) → `POST /api/orders` with `{ customer_email, project: "athas", items, billing_address, … }` (prices in EUR cents from the catalog).
 
 Donation amount bounds must match the payment store (`DONATION_MIN_CENTS` / `DONATION_MAX_CENTS`, defaults €1–€5,000). Currency is **EUR**.
 
