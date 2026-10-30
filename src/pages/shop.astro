@@ -3,7 +3,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 import MerchItem from "../components/MerchItem.astro";
 import Panel from "../components/Panel.astro";
-import { getPaymentApiUrl } from "../lib/paymentApiUrl";
+import {
+  getPaymentApiUrl,
+  PAYMENT_STORE_PROJECT_SLUG,
+} from "../lib/paymentApiUrl";
 
 const items = await getCollection("merch");
 const sorted = items.sort(
@@ -18,6 +21,7 @@ const rendered = await Promise.all(
 
 const paymentApiUrl = getPaymentApiUrl();
 const paymentApiConfigured = Boolean(paymentApiUrl);
+const paymentStoreProject = PAYMENT_STORE_PROJECT_SLUG;
 
 // Keep in sync with band_payment_store DONATION_* defaults (EUR cents).
 const donationMinCents = 100;
@@ -359,6 +363,7 @@ const giftTierCdTshirtCents = 5_000;
       is:inline
       define:vars={{
         paymentApiUrl,
+        paymentStoreProject,
         donationMinCents,
         donationMaxCents,
       }}
@@ -609,7 +614,7 @@ const giftTierCdTshirtCents = 5_000;
 
         const body = {
           customer_email: email,
-          project: "athas",
+          project: paymentStoreProject,
           amount_cents: amountCents,
           billing_address: billing,
           shipping_same_as_billing: shippingSame,

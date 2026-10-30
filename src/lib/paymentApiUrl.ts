@@ -7,7 +7,10 @@ export const PRODUCTION_PAYMENT_API_URL =
  * Host deploy should pin that tag (or newer compatible). See payment-store
  * docs/superpowers/specs/2026-10-29-payment-store-release-pin-design.md.
  */
-export const PAYMENT_STORE_API_VERSION = "v0.0.1";
+export const PAYMENT_STORE_API_VERSION = "v0.0.2";
+
+/** Active `projects.slug` sent on create order/donation bodies. */
+export const PAYMENT_STORE_PROJECT_SLUG = "athas";
 
 /** True when `url` is a bare http(s) origin (no path/query/hash/credentials). */
 export function isValidPaymentApiUrl(url: string): boolean {

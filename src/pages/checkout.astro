@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getPaymentApiUrl } from "../lib/paymentApiUrl";
+import {
+  getPaymentApiUrl,
+  PAYMENT_STORE_PROJECT_SLUG,
+} from "../lib/paymentApiUrl";
 
 const paymentApiUrl = getPaymentApiUrl();
 const configured = Boolean(paymentApiUrl);
+const paymentStoreProject = PAYMENT_STORE_PROJECT_SLUG;
 ---
 
 <BaseLayout
@@ -273,7 +277,7 @@ const configured = Boolean(paymentApiUrl);
 
 {
   configured ? (
-    <script is:inline define:vars={{ paymentApiUrl }}>
+    <script is:inline define:vars={{ paymentApiUrl, paymentStoreProject }}>
       const params = new URLSearchParams(window.location.search);
       const variantId = Number.parseInt(params.get("variantId") || "", 10);
       const quantityFromUrl = Number.parseInt(params.get("quantity") || "1", 10);
@@ -537,7 +541,7 @@ const configured = Boolean(paymentApiUrl);
 
         const body = {
           customer_email: email,
-          project: "athas",
+          project: paymentStoreProject,
           items: [{ variant_id: variantId, quantity }],
           billing_address: billing,
           shipping_same_as_billing: shippingSame,
