@@ -2,7 +2,7 @@
 
 The site is static; PayPal secrets live only in `band_payment_store`.
 
-**Requires payment-store ≥ `v0.0.1`** (`PAYMENT_STORE_API_VERSION` in `src/lib/paymentApiUrl.ts`). Create bodies must include `"project": "athas"`. Deploy the store tag on the host before (or with) this site build.
+**Requires payment-store ≥ `v0.0.2`** (`PAYMENT_STORE_API_VERSION` in `src/lib/paymentApiUrl.ts`). Create bodies must include `"project": "athas"`. Deploy the store tag on the host before (or with) this site build.
 
 ## Production
 
